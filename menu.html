@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Menu — EMBER</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.menu-hero {
+  background:linear-gradient(135deg,var(--surface) 0%,var(--bg) 100%);
+  border-bottom:1px solid var(--border);
+  padding:48px clamp(16px,4vw,48px) 0;
+}
+.menu-hero h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(2.4rem,6vw,4rem); font-weight:700; margin:8px 0; }
+.menu-hero p { color:var(--muted); margin-bottom:28px; }
+
+/* FILTERS */
+.filters-bar {
+  display:flex; gap:10px; flex-wrap:wrap; padding:28px clamp(16px,4vw,48px);
+  border-bottom:1px solid var(--border); position:sticky; top:var(--nav-h); z-index:50;
+  background:rgba(8,6,4,0.95); backdrop-filter:blur(12px);
+}
+.filter-btn {
+  padding:8px 20px; border-radius:50px; border:1px solid var(--border);
+  background:transparent; color:var(--muted); font-size:0.82rem; font-weight:500;
+  cursor:pointer; transition:all .2s; white-space:nowrap;
+}
+.filter-btn:hover { color:var(--text); border-color:var(--muted); }
+.filter-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+
+/* SEARCH */
+.search-box {
+  margin-left:auto; position:relative;
+}
+.search-input {
+  padding:8px 16px 8px 38px; border-radius:50px;
+  border:1px solid var(--border); background:var(--surface2);
+  color:var(--text); font-size:0.82rem; width:200px; outline:none; transition:border-color .2s;
+}
+.search-input:focus { border-color:var(--accent); width:240px; }
+.search-icon { position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--muted); font-size:0.9rem; pointer-events:none; }
+
+/* MENU SECTIONS */
+.menu-body { padding:40px clamp(16px,4vw,48px) 80px; }
+.menu-section { margin-bottom:56px; }
+.menu-section-hdr {
+  display:flex; align-items:center; gap:16px; margin-bottom:24px;
+  padding-bottom:14px; border-bottom:1px solid var(--border);
+}
+.menu-section-hdr h2 { font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-weight:700; }
+.menu-section-hdr span { color:var(--muted); font-size:0.78rem; }
+
+.menu-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(272px,1fr)); gap:20px; }
+.menu-card {
+  background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  overflow:hidden; display:flex; flex-direction:column; transition:all .22s;
+}
+.menu-card:hover { box-shadow:var(--shadow); transform:translateY(-4px); border-color:rgba(212,130,42,0.35); }
+.menu-card-img {
+  height:156px; display:flex; align-items:center; justify-content:center;
+  font-size:3.6rem; background:var(--surface2); border-bottom:1px solid var(--border);
+  position:relative;
+}
+.card-badge { position:absolute; top:10px; left:10px; }
+.menu-card-body { padding:20px; flex:1; display:flex; flex-direction:column; }
+.menu-card-name { font-family:'Cormorant Garamond',serif; font-size:1.08rem; font-weight:700; margin-bottom:6px; }
+.menu-card-desc { color:var(--muted); font-size:0.82rem; line-height:1.55; flex:1; margin-bottom:18px; }
+.menu-card-foot { display:flex; align-items:center; justify-content:space-between; }
+.menu-price { font-family:'Cormorant Garamond',serif; font-size:1.2rem; font-weight:700; color:var(--accent); }
+.add-btn {
+  background:var(--accent); color:#fff; border:none;
+  padding:9px 16px; border-radius:8px; font-size:0.8rem; font-weight:600;
+  cursor:pointer; transition:background .2s;
+}
+.add-btn:hover { background:var(--accent2); }
+
+/* EMPTY */
+.empty { text-align:center; padding:80px 20px; color:var(--muted); }
+.empty-icon { font-size:4rem; margin-bottom:16px; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="index.html">EMBER</a>
+  <div class="nav-center" id="navCenter">
+    <a href="index.html">Home</a>
+    <a href="menu.html">Menu</a>
+    <a href="about.html">About</a>
+    <a href="reservations.html">Reserve</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <div class="nav-right">
+    <a href="cart.html"><button class="btn-cart">🛒 Cart <span class="cart-badge">0</span></button></a>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="page-body">
+<div class="menu-hero">
+  <div class="section-label">48 Dishes</div>
+  <h1 class="fade-up">Our Menu</h1>
+  <p class="fade-up delay-1">Every dish crafted from fire, technique, and the finest seasonal ingredients.</p>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filters-bar">
+  <button class="filter-btn active" data-cat="all">All</button>
+  <button class="filter-btn" data-cat="starters">🥗 Starters</button>
+  <button class="filter-btn" data-cat="mains">🥩 Mains</button>
+  <button class="filter-btn" data-cat="pasta">🍝 Pasta</button>
+  <button class="filter-btn" data-cat="pizza">🍕 Pizza</button>
+  <button class="filter-btn" data-cat="desserts">🍰 Desserts</button>
+  <button class="filter-btn" data-cat="drinks">🍷 Drinks</button>
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" type="text" placeholder="Search dishes..." id="searchInput">
+  </div>
+</div>
+
+<div class="menu-body" id="menuBody"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand"><span class="footer-brand-logo">EMBER</span><p>Fine dining delivered. Where every meal is an occasion worth remembering.</p></div>
+    <div class="footer-col"><h5>Navigate</h5><a href="index.html">Home</a><a href="menu.html">Menu</a><a href="about.html">About</a><a href="reservations.html">Reserve</a><a href="contact.html">Contact</a></div>
+    <div class="footer-col"><h5>Menu</h5><a href="menu.html?cat=starters">Starters</a><a href="menu.html?cat=mains">Mains</a><a href="menu.html?cat=pasta">Pasta & Pizza</a><a href="menu.html?cat=desserts">Desserts</a></div>
+    <div class="footer-col"><h5>Info</h5><a href="#">Privacy Policy</a><a href="#">Terms of Use</a><a href="#">Refund Policy</a></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 EMBER Fine Dining</span><span>Made with 🔥 in Hyderabad</span></div>
+</footer>
+</div>
+
+<div id="toast"></div>
+<script src="app.js"></script>
+<script>
+const MENU = {
+  starters:[
+    {id:10,name:'Burrata & Heirloom Tomato',price:620,emoji:'🍅',desc:'Stracciatella, basil oil, aged balsamic reduction, sourdough croutons',badge:'hot'},
+    {id:11,name:'Charred Broccoli',price:450,emoji:'🥦',desc:'Open-flame charred, tahini, pomegranate molasses, toasted almonds',badge:'new'},
+    {id:12,name:'Duck Liver Parfait',price:780,emoji:'🍞',desc:'House-made brioche, fig & port chutney, pickled shallots',badge:''},
+    {id:13,name:'Prawn Tempura',price:880,emoji:'🍤',desc:'Tiger prawns, yuzu mayo, micro herbs, toasted sesame',badge:'spicy'},
+    {id:14,name:'Mushroom Arancini',price:540,emoji:'🍄',desc:'Porcini & truffle risotto balls, Fontina, saffron aioli',badge:'hot'},
+    {id:15,name:'Tuna Tartare',price:920,emoji:'🐟',desc:'Yellowfin tuna, avocado, ponzu, crispy wonton',badge:'new'},
+  ],
+  mains:[
+    {id:20,name:'Ember-Charred Ribeye',price:1850,emoji:'🥩',desc:'28-day dry-aged prime cut, truffle pomme purée, bone marrow jus',badge:'hot'},
+    {id:21,name:'Pan-Seared Salmon',price:1280,emoji:'🐟',desc:'Scottish salmon, cauliflower purée, capers, dill beurre blanc',badge:''},
+    {id:22,name:'72-hr Braised Short Rib',price:1650,emoji:'🍖',desc:'Sous vide rib, red wine reduction, creamy polenta, gremolata',badge:'hot'},
+    {id:23,name:'Miso-Glazed Cauliflower',price:850,emoji:'🥦',desc:'White miso glaze, quinoa tabbouleh, harissa yoghurt (V)',badge:'new'},
+    {id:24,name:'Spiced Lamb Chops',price:1450,emoji:'🍗',desc:'Frenched chops, chermoula marinade, smoked eggplant purée',badge:'spicy'},
+    {id:25,name:'Duck Breast à l\'Orange',price:1380,emoji:'🦆',desc:'Magret duck, orange gastrique, wilted greens, potato dauphinoise',badge:''},
+    {id:26,name:'Whole Sea Bass',price:1580,emoji:'🐠',desc:'Line-caught, lemon-herb crust, roasted fennel, salsa verde',badge:'new'},
+  ],
+  pasta:[
+    {id:30,name:'Black Truffle Tagliolini',price:1280,emoji:'🍝',desc:'Hand-rolled egg pasta, shaved Périgord truffle, Parmigiano Reggiano',badge:'hot'},
+    {id:31,name:'Cacio e Pepe',price:680,emoji:'🍝',desc:'Classic Roman, Pecorino Romano, Parmigiano, cracked black pepper',badge:''},
+    {id:32,name:'Lobster Bisque Linguine',price:1480,emoji:'🦞',desc:'Boston lobster tail, saffron bisque reduction, fresh dill',badge:'new'},
+    {id:33,name:'Pappardelle Bolognese',price:780,emoji:'🍝',desc:'Slow-cooked 6-hour meat ragu, aged Parmigiano Reggiano',badge:'hot'},
+    {id:34,name:'Spinach & Ricotta Gnudi',price:720,emoji:'🟢',desc:'Pillowy ricotta dumplings, burnt sage butter, toasted pine nuts (V)',badge:''},
+  ],
+  pizza:[
+    {id:40,name:'Margherita Verace',price:720,emoji:'🍕',desc:'San Marzano DOP, Fior di latte, fresh basil, extra virgin olive oil',badge:'hot'},
+    {id:41,name:'Nduja Diavola',price:950,emoji:'🍕',desc:'Spicy Calabrian nduja, chilli oil, smoked mozzarella, fresh oregano',badge:'spicy'},
+    {id:42,name:'Prosciutto e Rucola',price:1050,emoji:'🍕',desc:'24-month Prosciutto di Parma, wild rocket, shaved Parmesan, lemon',badge:'new'},
+    {id:43,name:'Funghi Porcini',price:880,emoji:'🍕',desc:'Wild porcini, Fontina, rosemary oil, garlic confit (V)',badge:''},
+    {id:44,name:'Quattro Formaggi',price:920,emoji:'🍕',desc:'Mozzarella, Gorgonzola, Fontina, aged Parmigiano, honey drizzle',badge:''},
+  ],
+  desserts:[
+    {id:50,name:'Chocolate Fondant',price:520,emoji:'🍫',desc:'70% Valrhona, guaranteed molten centre, vanilla bean gelato',badge:'hot'},
+    {id:51,name:'Lemon Tart Meringata',price:440,emoji:'🍋',desc:'Italian meringue, lemon curd, candied zest, tuile',badge:''},
+    {id:52,name:'Classic Tiramisù',price:480,emoji:'☕',desc:'House-made mascarpone cream, 48-hr soaked Savoiardi, cocoa',badge:'hot'},
+    {id:53,name:'Seasonal Sorbetto',price:320,emoji:'🍧',desc:"Ask for today's flavour. Always vegan & dairy-free.",badge:'new'},
+    {id:54,name:'Panna Cotta',price:380,emoji:'🍮',desc:'Vanilla bean, seasonal berry compote, tuile biscuit',badge:''},
+  ],
+  drinks:[
+    {id:60,name:'House Negroni',price:580,emoji:'🍹',desc:'Campari, Martini Rosso, barrel-aged gin, orange zest, large ice',badge:'hot'},
+    {id:61,name:'Barolo 2019',price:1850,emoji:'🍷',desc:'Poderi Aldo Conterno — glass pour, decanted',badge:''},
+    {id:62,name:'Ember Lemonade',price:280,emoji:'🍋',desc:'House-pressed lemon, rosemary syrup, soda, mint (N/A)',badge:'new'},
+    {id:63,name:'Cold Brew Coffee',price:220,emoji:'☕',desc:'24-hr cold extract, oat milk on the side',badge:''},
+    {id:64,name:'Aperol Spritz',price:520,emoji:'🍊',desc:'Aperol, Prosecco, soda, orange slice',badge:''},
+    {id:65,name:'Non-Alcoholic Sangria',price:340,emoji:'🍇',desc:'Mixed berry, hibiscus, ginger, sparkling water',badge:'new'},
+  ],
+};
+const LABELS = {starters:'Starters',mains:'Mains',pasta:'Pasta',pizza:'Pizza',desserts:'Desserts',drinks:'Drinks & Cocktails'};
+const ICONS  = {starters:'🥗',mains:'🥩',pasta:'🍝',pizza:'🍕',desserts:'🍰',drinks:'🍷'};
+
+let activeFilter = 'all';
+let searchQ = '';
+
+function badgeHTML(b) {
+  if(!b) return '';
+  const map = {hot:['badge-hot','🔥 Popular'],new:['badge-new','✨ New'],spicy:['badge-spicy','🌶 Spicy']};
+  const [cls,txt] = map[b]||['',''];
+  return `<div class="card-badge"><span class="badge ${cls}">${txt}</span></div>`;
+}
+
+function renderMenu() {
+  const body = document.getElementById('menuBody');
+  const cats = activeFilter==='all' ? Object.keys(MENU) : [activeFilter];
+  const q = searchQ.toLowerCase();
+  let html = '';
+  cats.forEach(cat => {
+    const items = MENU[cat].filter(i => !q || i.name.toLowerCase().includes(q) || i.desc.toLowerCase().includes(q));
+    if(!items.length) return;
+    html += `<div class="menu-section">
+      <div class="menu-section-hdr">
+        <h2>${ICONS[cat]} ${LABELS[cat]}</h2>
+        <span>${items.length} items</span>
+      </div>
+      <div class="menu-grid">
+        ${items.map(item=>`
+          <div class="menu-card">
+            <div class="menu-card-img">
+              ${badgeHTML(item.badge)}
+              ${item.emoji}
+            </div>
+            <div class="menu-card-body">
+              <div class="menu-card-name">${item.name}</div>
+              <div class="menu-card-desc">${item.desc}</div>
+              <div class="menu-card-foot">
+                <div class="menu-price">₹${item.price.toLocaleString()}</div>
+                <button class="add-btn" onclick='addToCart(${JSON.stringify(item)})'>+ Add</button>
+              </div>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+  });
+  body.innerHTML = html || `<div class="empty"><div class="empty-icon">🍽</div><p>No dishes match your search.</p></div>`;
+}
+
+// Filter buttons
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.cat;
+    renderMenu();
+  });
+});
+
+// Search
+document.getElementById('searchInput').addEventListener('input',e=>{
+  searchQ = e.target.value;
+  renderMenu();
+});
+
+// URL param ?cat=
+const urlCat = new URLSearchParams(location.search).get('cat');
+if(urlCat && MENU[urlCat]) {
+  activeFilter = urlCat;
+  document.querySelectorAll('.filter-btn').forEach(b=>{
+    b.classList.toggle('active', b.dataset.cat===urlCat);
+  });
+}
+
+renderMenu();
+</script>
+</body>
+</html>
