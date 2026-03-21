@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contact — EMBER</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.contact-hero {
+  padding:72px clamp(16px,4vw,48px) 64px;
+  border-bottom:1px solid var(--border);
+  background:linear-gradient(160deg,var(--surface) 0%,var(--bg) 70%);
+}
+.contact-hero h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(2.4rem,6vw,4.5rem); font-weight:700; margin:10px 0 14px; }
+.contact-hero p { color:var(--muted); max-width:500px; line-height:1.75; }
+
+.contact-layout { display:grid; grid-template-columns:1fr 1fr; gap:48px; padding:64px clamp(16px,4vw,48px) 80px; }
+@media(max-width:768px){.contact-layout{grid-template-columns:1fr;}}
+
+/* LEFT */
+.contact-details { }
+.contact-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius); padding:32px; margin-bottom:20px;
+  transition:border-color .2s;
+}
+.contact-card:hover { border-color:rgba(212,130,42,0.35); }
+.contact-card-hdr { display:flex; align-items:center; gap:14px; margin-bottom:16px; }
+.contact-icon { font-size:1.4rem; width:46px; height:46px; background:var(--surface2); border:1px solid var(--border); border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.contact-card-title { font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:700; }
+.contact-card p { color:var(--muted); font-size:0.88rem; line-height:1.75; }
+.contact-card a { color:var(--accent); font-size:0.88rem; }
+
+.map-placeholder {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius); height:240px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px;
+  color:var(--muted); font-size:0.88rem; margin-top:4px;
+}
+.map-placeholder span { font-size:3rem; }
+
+/* RIGHT — FORM */
+.contact-form { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:40px; }
+.contact-form h2 { font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-weight:700; margin-bottom:28px; }
+.form-row-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+@media(max-width:480px){.form-row-2{grid-template-columns:1fr;}}
+.send-btn {
+  width:100%; padding:15px; background:var(--accent); color:#fff;
+  border:none; border-radius:10px; font-size:0.95rem; font-weight:700;
+  cursor:pointer; margin-top:8px; transition:background .2s;
+}
+.send-btn:hover { background:var(--accent2); }
+
+/* FAQ */
+.faq-section { padding:0 clamp(16px,4vw,48px) 80px; }
+.faq-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:40px; }
+@media(max-width:600px){.faq-grid{grid-template-columns:1fr;}}
+.faq-item {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius); padding:24px; cursor:pointer;
+  transition:border-color .2s;
+}
+.faq-item:hover { border-color:rgba(212,130,42,0.35); }
+.faq-q { font-weight:600; font-size:0.92rem; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; }
+.faq-a { color:var(--muted); font-size:0.85rem; line-height:1.7; display:none; }
+.faq-item.open .faq-a { display:block; }
+.faq-item.open .faq-arrow { transform:rotate(180deg); }
+.faq-arrow { transition:transform .2s; }
+
+/* SUCCESS */
+.success-banner {
+  display:none; background:rgba(74,140,92,0.12); border:1px solid rgba(74,140,92,0.35);
+  border-radius:10px; padding:16px 20px; color:var(--green);
+  font-size:0.9rem; font-weight:500; margin-top:16px;
+}
+.success-banner.show { display:block; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">EMBER</a>
+  <div class="nav-center" id="navCenter">
+    <a href="index.html">Home</a><a href="menu.html">Menu</a><a href="about.html">About</a><a href="reservations.html">Reserve</a><a href="contact.html">Contact</a>
+  </div>
+  <div class="nav-right">
+    <a href="cart.html"><button class="btn-cart">🛒 Cart <span class="cart-badge">0</span></button></a>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="page-body">
+
+<div class="contact-hero">
+  <div class="section-label fade-up">Get in Touch</div>
+  <h1 class="fade-up delay-1">We'd Love to<br>Hear From You</h1>
+  <p class="fade-up delay-2">Whether it's a question about our menu, a special event, or just to tell us how your meal was — we're always here.</p>
+</div>
+
+<div class="contact-layout">
+  <!-- LEFT -->
+  <div class="contact-details">
+    <div class="contact-card">
+      <div class="contact-card-hdr"><div class="contact-icon">📍</div><div class="contact-card-title">Visit Us</div></div>
+      <p>42 Flame Street, Banjara Hills<br>Hyderabad, Telangana 500034<br><br>Parking available in the building basement.</p>
+    </div>
+    <div class="contact-card">
+      <div class="contact-card-hdr"><div class="contact-icon">📞</div><div class="contact-card-title">Call or WhatsApp</div></div>
+      <p><a href="tel:+919876543210">+91 98765 43210</a><br>Available Tuesday–Sunday, 10 AM to 10 PM</p>
+    </div>
+    <div class="contact-card">
+      <div class="contact-card-hdr"><div class="contact-icon">✉️</div><div class="contact-card-title">Email Us</div></div>
+      <p>General: <a href="mailto:hello@emberdining.in">hello@emberdining.in</a><br>Events: <a href="mailto:events@emberdining.in">events@emberdining.in</a><br>We respond within 24 hours.</p>
+    </div>
+    <div class="contact-card">
+      <div class="contact-card-hdr"><div class="contact-icon">🕐</div><div class="contact-card-title">Opening Hours</div></div>
+      <p>
+        Monday: Closed<br>
+        Tuesday – Friday: 12:00 – 22:30<br>
+        Saturday: 11:00 – 23:00<br>
+        Sunday: 11:00 – 22:00<br>
+        Delivery: 11:00 – 23:00 daily
+      </p>
+    </div>
+    <div class="map-placeholder">
+      <span>🗺️</span>
+      <p>42 Flame Street, Banjara Hills, Hyderabad</p>
+    </div>
+  </div>
+
+  <!-- RIGHT FORM -->
+  <div class="contact-form">
+    <h2>Send a Message</h2>
+    <div class="form-row-2">
+      <div class="form-group"><label class="form-label">First Name *</label><input type="text" class="form-input" id="cfname" placeholder="Arjun"></div>
+      <div class="form-group"><label class="form-label">Last Name</label><input type="text" class="form-input" id="clname" placeholder="Mehra"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Email *</label><input type="email" class="form-input" id="cemail" placeholder="arjun@email.com"></div>
+    <div class="form-group"><label class="form-label">Phone</label><input type="tel" class="form-input" id="cphone" placeholder="+91 98765 43210"></div>
+    <div class="form-group">
+      <label class="form-label">Subject</label>
+      <select class="form-input" id="csubject">
+        <option>General Enquiry</option>
+        <option>Event / Private Dining</option>
+        <option>Feedback — Positive</option>
+        <option>Feedback — Complaint</option>
+        <option>Media / Press</option>
+        <option>Partnership / Collaboration</option>
+        <option>Careers</option>
+      </select>
+    </div>
+    <div class="form-group"><label class="form-label">Message *</label><textarea class="form-input" id="cmessage" placeholder="Tell us what's on your mind…"></textarea></div>
+    <button class="send-btn" onclick="sendMessage()">Send Message →</button>
+    <div class="success-banner" id="successBanner">✅ Your message has been sent! We'll reply within 24 hours.</div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="faq-section">
+  <div style="text-align:center;margin-bottom:0;">
+    <div class="section-label">FAQ</div>
+    <h2 class="section-title">Frequently Asked Questions</h2>
+  </div>
+  <div class="faq-grid">
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-q">Do you cater to dietary requirements? <span class="faq-arrow">▾</span></div>
+      <div class="faq-a">Yes! We have clearly marked vegan (V), gluten-free (GF), and nut-free options across our menu. Please inform us of any allergies at the time of booking or ordering.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-q">What areas do you deliver to? <span class="faq-arrow">▾</span></div>
+      <div class="faq-a">We currently deliver across Banjara Hills, Jubilee Hills, Madhapur, HITEC City, Kondapur, Gachibowli, Begumpet, and Secunderabad. Check out our delivery zones page for exact coverage.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-q">Can I book EMBER for a private event? <span class="faq-arrow">▾</span></div>
+      <div class="faq-a">Absolutely. We offer full and partial restaurant buyouts for corporate events, birthday dinners, and intimate celebrations. Email events@emberdining.in with your requirements.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-q">How far in advance should I book? <span class="faq-arrow">▾</span></div>
+      <div class="faq-a">We recommend booking at least 48 hours in advance, especially for weekends. Same-day bookings are occasionally possible — call us directly to check availability.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-q">What is your cancellation policy? <span class="faq-arrow">▾</span></div>
+      <div class="faq-a">Reservations can be cancelled free of charge up to 24 hours before the booking time. Late cancellations or no-shows for groups of 6+ may incur a small fee.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-q">Is there a dress code? <span class="faq-arrow">▾</span></div>
+      <div class="faq-a">We ask for smart-casual attire. We want you to be comfortable while still honouring the dining experience. No beachwear or sportswear please.</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand"><span class="footer-brand-logo">EMBER</span><p>Fine dining delivered. Where every meal is an occasion worth remembering.</p></div>
+    <div class="footer-col"><h5>Navigate</h5><a href="index.html">Home</a><a href="menu.html">Menu</a><a href="about.html">About</a><a href="reservations.html">Reserve</a><a href="contact.html">Contact</a></div>
+    <div class="footer-col"><h5>Menu</h5><a href="menu.html?cat=starters">Starters</a><a href="menu.html?cat=mains">Mains</a><a href="menu.html?cat=pasta">Pasta & Pizza</a><a href="menu.html?cat=desserts">Desserts</a></div>
+    <div class="footer-col"><h5>Info</h5><a href="#">Privacy Policy</a><a href="#">Terms of Use</a><a href="#">Refund Policy</a></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 EMBER Fine Dining</span><span>Made with 🔥 in Hyderabad</span></div>
+</footer>
+
+</div>
+<div id="toast"></div>
+<script src="app.js"></script>
+<script>
+function sendMessage() {
+  const fname = document.getElementById('cfname').value.trim();
+  const email = document.getElementById('cemail').value.trim();
+  const msg = document.getElementById('cmessage').value.trim();
+  if(!fname || !email || !msg) { showToast('❌ Please fill in all required fields'); return; }
+  document.getElementById('successBanner').classList.add('show');
+  document.getElementById('cfname').value='';
+  document.getElementById('clname').value='';
+  document.getElementById('cemail').value='';
+  document.getElementById('cphone').value='';
+  document.getElementById('cmessage').value='';
+}
+
+function toggleFAQ(el) {
+  el.classList.toggle('open');
+}
+</script>
+</body>
+</html>
