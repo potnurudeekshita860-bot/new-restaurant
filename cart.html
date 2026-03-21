@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Your Cart — EMBER</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.cart-page { padding:48px clamp(16px,4vw,48px) 80px; }
+.cart-page h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,5vw,3.2rem); font-weight:700; margin-bottom:8px; }
+.cart-page > p { color:var(--muted); margin-bottom:40px; }
+
+.cart-layout { display:grid; grid-template-columns:1fr 380px; gap:32px; align-items:start; }
+@media(max-width:900px){.cart-layout{grid-template-columns:1fr;}}
+
+/* ITEMS */
+.cart-list { display:flex; flex-direction:column; gap:16px; }
+.cart-item {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius); padding:22px;
+  display:flex; align-items:center; gap:20px; transition:border-color .2s;
+}
+.cart-item:hover { border-color:rgba(212,130,42,0.3); }
+.item-emoji { font-size:2.6rem; width:68px; height:68px; border-radius:12px; background:var(--surface2); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.item-info { flex:1; }
+.item-name { font-family:'Cormorant Garamond',serif; font-size:1.05rem; font-weight:700; margin-bottom:4px; }
+.item-desc { color:var(--muted); font-size:0.8rem; margin-bottom:8px; }
+.item-price { font-weight:700; color:var(--accent); font-size:1rem; }
+.item-actions { display:flex; align-items:center; gap:16px; }
+.remove-btn { background:none; border:none; color:var(--muted); font-size:1.1rem; cursor:pointer; padding:4px; border-radius:6px; transition:color .2s; }
+.remove-btn:hover { color:var(--red); }
+
+/* SUMMARY */
+.summary-box {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:16px; padding:32px; position:sticky; top:90px;
+}
+.summary-box h3 { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:700; margin-bottom:24px; }
+.sum-row { display:flex; justify-content:space-between; margin-bottom:14px; font-size:0.9rem; }
+.sum-label { color:var(--muted); }
+.sum-divider { border:none; border-top:1px solid var(--border); margin:16px 0; }
+.sum-total { font-size:1.05rem; font-weight:700; }
+
+.coupon-row { display:flex; gap:10px; margin:18px 0; }
+.coupon-input {
+  flex:1; padding:10px 14px; border-radius:8px;
+  border:1px solid var(--border); background:var(--surface2);
+  color:var(--text); font-size:0.85rem; outline:none; transition:border-color .2s;
+}
+.coupon-input:focus { border-color:var(--accent); }
+.coupon-btn {
+  padding:10px 14px; background:transparent; color:var(--text);
+  border:1px solid var(--border); border-radius:8px; font-size:0.82rem; font-weight:600;
+  cursor:pointer; transition:all .2s;
+}
+.coupon-btn:hover { border-color:var(--accent); color:var(--accent); }
+
+.checkout-btn {
+  width:100%; padding:16px; background:var(--accent); color:#fff;
+  border:none; border-radius:10px; font-size:1rem; font-weight:700;
+  cursor:pointer; margin-top:16px; transition:background .2s; letter-spacing:.3px;
+}
+.checkout-btn:hover { background:var(--accent2); }
+.secure-note { text-align:center; color:var(--dim); font-size:0.75rem; margin-top:12px; }
+
+/* EMPTY */
+.empty-cart { text-align:center; padding:80px 20px; }
+.empty-cart .ico { font-size:4.5rem; margin-bottom:16px; }
+.empty-cart h2 { font-family:'Cormorant Garamond',serif; font-size:1.8rem; margin-bottom:10px; }
+.empty-cart p { color:var(--muted); margin-bottom:28px; }
+
+/* SUCCESS MODAL */
+.modal-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,0.82);
+  backdrop-filter:blur(10px); z-index:2000; display:none;
+  align-items:center; justify-content:center; padding:20px;
+}
+.modal-overlay.open { display:flex; }
+.modal {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:20px; padding:48px 40px; width:100%; max-width:480px;
+  position:relative; text-align:center; animation:popIn .3s ease;
+}
+@keyframes popIn { from{opacity:0;transform:scale(.94)} to{opacity:1;transform:scale(1)} }
+.modal-close { position:absolute; top:14px; right:16px; background:none; border:none; color:var(--muted); font-size:1.4rem; cursor:pointer; }
+.modal .big-icon { font-size:4.5rem; margin-bottom:16px; }
+.modal h2 { font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:700; margin-bottom:14px; }
+.modal p { color:var(--muted); line-height:1.7; margin-bottom:24px; }
+.order-id { background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:12px; font-family:monospace; letter-spacing:2px; font-size:0.9rem; margin-bottom:24px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">EMBER</a>
+  <div class="nav-center" id="navCenter">
+    <a href="index.html">Home</a><a href="menu.html">Menu</a><a href="about.html">About</a><a href="reservations.html">Reserve</a><a href="contact.html">Contact</a>
+  </div>
+  <div class="nav-right">
+    <a href="cart.html"><button class="btn-cart">🛒 Cart <span class="cart-badge">0</span></button></a>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="page-body">
+<div class="cart-page">
+  <h1 class="fade-up">Your Cart</h1>
+  <p class="fade-up delay-1">Review your order before checkout</p>
+
+  <div id="cartContent"></div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand"><span class="footer-brand-logo">EMBER</span><p>Fine dining delivered. Where every meal is an occasion worth remembering.</p></div>
+    <div class="footer-col"><h5>Navigate</h5><a href="index.html">Home</a><a href="menu.html">Menu</a><a href="about.html">About</a><a href="reservations.html">Reserve</a><a href="contact.html">Contact</a></div>
+    <div class="footer-col"><h5>Menu</h5><a href="menu.html?cat=starters">Starters</a><a href="menu.html?cat=mains">Mains</a><a href="menu.html?cat=pasta">Pasta & Pizza</a><a href="menu.html?cat=desserts">Desserts</a></div>
+    <div class="footer-col"><h5>Info</h5><a href="#">Privacy Policy</a><a href="#">Terms of Use</a><a href="#">Refund Policy</a></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 EMBER Fine Dining</span><span>Made with 🔥 in Hyderabad</span></div>
+</footer>
+</div>
+
+<!-- ORDER MODAL -->
+<div class="modal-overlay" id="orderModal">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('orderModal').classList.remove('open')">✕</button>
+    <div class="big-icon">🎉</div>
+    <h2>Order Confirmed!</h2>
+    <div class="order-id" id="orderId">EMB-000000</div>
+    <p>Your order is being prepared by our kitchen team. Estimated delivery: <strong>28–35 minutes</strong>.<br>You'll receive an SMS confirmation shortly.</p>
+    <a href="menu.html"><button class="checkout-btn" style="max-width:260px;">Continue Shopping →</button></a>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="app.js"></script>
+<script>
+let couponApplied = false;
+
+function renderCart() {
+  const cart = getCart();
+  const el = document.getElementById('cartContent');
+
+  if(!cart.length) {
+    el.innerHTML = `<div class="empty-cart">
+      <div class="ico">🛒</div>
+      <h2>Your cart is empty</h2>
+      <p>Looks like you haven't added anything yet. Browse our menu and find something delicious!</p>
+      <a href="menu.html"><button class="btn btn-primary">Browse Menu →</button></a>
+    </div>`;
+    return;
+  }
+
+  const subtotal = cart.reduce((s,i)=>s+i.price*i.qty,0);
+  const discount = couponApplied ? Math.round(subtotal*0.1) : 0;
+  const delivery = subtotal >= 499 ? 0 : 49;
+  const tax = Math.round((subtotal-discount)*0.05);
+  const total = subtotal - discount + delivery + tax;
+
+  el.innerHTML = `
+    <div class="cart-layout">
+      <div class="cart-list">
+        ${cart.map(item=>`
+          <div class="cart-item">
+            <div class="item-emoji">${item.emoji}</div>
+            <div class="item-info">
+              <div class="item-name">${item.name}</div>
+              <div class="item-desc">${item.desc||''}</div>
+              <div class="item-price">₹${(item.price*item.qty).toLocaleString()}</div>
+            </div>
+            <div class="item-actions">
+              <div class="qty-ctrl">
+                <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
+                <span class="qty-val">${item.qty}</span>
+                <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
+              </div>
+              <button class="remove-btn" onclick="removeItem(${item.id})" title="Remove">🗑</button>
+            </div>
+          </div>`).join('')}
+      </div>
+      <div class="summary-box">
+        <h3>Order Summary</h3>
+        <div class="sum-row"><span class="sum-label">Subtotal (${cart.reduce((s,i)=>s+i.qty,0)} items)</span><span>₹${subtotal.toLocaleString()}</span></div>
+        ${discount ? `<div class="sum-row"><span class="sum-label">Coupon EMBER10 (10%)</span><span style="color:var(--green)">−₹${discount.toLocaleString()}</span></div>`:''}
+        <div class="sum-row"><span class="sum-label">Delivery</span><span>${delivery===0?'<span style="color:var(--green)">FREE</span>':'₹'+delivery}</span></div>
+        <div class="sum-row"><span class="sum-label">GST (5%)</span><span>₹${tax.toLocaleString()}</span></div>
+        <hr class="sum-divider">
+        <div class="sum-row sum-total"><span>Total</span><span style="color:var(--accent)">₹${total.toLocaleString()}</span></div>
+
+        <div class="coupon-row">
+          <input class="coupon-input" type="text" id="couponInput" placeholder="Coupon code" value="${couponApplied?'EMBER10':''}">
+          <button class="coupon-btn" onclick="applyCoupon()">Apply</button>
+        </div>
+
+        <button class="checkout-btn" onclick="placeOrder()">Place Order →</button>
+        <div class="secure-note">🔒 Secure checkout · Free delivery above ₹499</div>
+      </div>
+    </div>`;
+}
+
+function changeQty(id, delta) {
+  let cart = getCart();
+  const item = cart.find(c=>c.id===id);
+  if(!item) return;
+  item.qty += delta;
+  if(item.qty <= 0) cart = cart.filter(c=>c.id!==id);
+  saveCart(cart);
+  updateCartBadge();
+  renderCart();
+}
+
+function removeItem(id) {
+  let cart = getCart().filter(c=>c.id!==id);
+  saveCart(cart);
+  updateCartBadge();
+  renderCart();
+  showToast('Item removed');
+}
+
+function applyCoupon() {
+  const val = document.getElementById('couponInput')?.value.trim().toUpperCase();
+  if(val==='EMBER10') { couponApplied=true; renderCart(); showToast('🎉 10% discount applied!'); }
+  else { showToast('❌ Invalid coupon code. Try EMBER10'); }
+}
+
+function placeOrder() {
+  const id = 'EMB-'+Math.floor(100000+Math.random()*900000);
+  document.getElementById('orderId').textContent = id;
+  document.getElementById('orderModal').classList.add('open');
+  saveCart([]);
+  couponApplied = false;
+  updateCartBadge();
+}
+
+renderCart();
+</script>
+</body>
+</html>
