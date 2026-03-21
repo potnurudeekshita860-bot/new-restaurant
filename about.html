@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>About — EMBER</title>
+<link rel="stylesheet" href="style.css">
+<style>
+/* HERO */
+.about-hero {
+  padding:72px clamp(16px,4vw,48px) 80px;
+  background:linear-gradient(160deg,var(--surface) 0%,var(--bg) 65%);
+  border-bottom:1px solid var(--border);
+}
+.about-grid { display:grid; grid-template-columns:1fr 1fr; gap:72px; align-items:center; max-width:1100px; margin:0 auto; }
+@media(max-width:768px){.about-grid{grid-template-columns:1fr;gap:40px;}}
+.about-text .section-label { margin-bottom:10px; }
+.about-text h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(2.2rem,5vw,3.8rem); font-weight:700; line-height:1.1; margin-bottom:24px; }
+.about-text h1 em { color:var(--accent); font-style:italic; }
+.about-text p { color:var(--muted); line-height:1.85; margin-bottom:16px; font-size:0.95rem; }
+.about-visual {
+  background:var(--surface2); border:1px solid var(--border);
+  border-radius:20px; height:440px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:7rem; position:relative; overflow:hidden;
+}
+.about-visual::before {
+  content:''; position:absolute; top:-60px; right:-60px;
+  width:260px; height:260px; border-radius:50%;
+  background:radial-gradient(circle, rgba(212,130,42,0.18) 0%, transparent 68%);
+}
+.about-visual::after {
+  content:''; position:absolute; bottom:0; left:0; right:0;
+  height:50%; background:linear-gradient(to top,var(--surface2),transparent);
+}
+
+/* NUMBERS STRIP */
+.numbers-strip {
+  display:grid; grid-template-columns:repeat(4,1fr);
+  border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+}
+@media(max-width:600px){.numbers-strip{grid-template-columns:1fr 1fr;}}
+.num-item {
+  padding:40px 32px; text-align:center;
+  border-right:1px solid var(--border);
+}
+.num-item:last-child { border-right:none; }
+.num-big { font-family:'Cormorant Garamond',serif; font-size:3rem; font-weight:700; color:var(--accent); display:block; }
+.num-label { color:var(--muted); font-size:0.78rem; letter-spacing:1.5px; text-transform:uppercase; }
+
+/* STORY SECTIONS */
+.story-section { padding:80px clamp(16px,4vw,48px); }
+.story-grid { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; max-width:1100px; margin:0 auto; }
+@media(max-width:768px){.story-grid{grid-template-columns:1fr;}}
+.story-grid.reverse { direction:rtl; }
+.story-grid.reverse > * { direction:ltr; }
+.story-image {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:16px; height:360px;
+  display:flex; align-items:center; justify-content:center; font-size:6rem;
+}
+.story-text h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(1.8rem,4vw,2.8rem); font-weight:700; margin-bottom:18px; line-height:1.2; }
+.story-text p { color:var(--muted); line-height:1.85; font-size:0.92rem; margin-bottom:14px; }
+
+/* TEAM */
+.team-section { padding:0 clamp(16px,4vw,48px) 80px; }
+.team-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:22px; margin-top:40px; }
+.team-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius); padding:32px 24px; text-align:center;
+  transition:all .22s;
+}
+.team-card:hover { border-color:rgba(212,130,42,0.35); transform:translateY(-4px); box-shadow:var(--shadow); }
+.team-avatar { font-size:3rem; margin-bottom:14px; }
+.team-name { font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:700; margin-bottom:4px; }
+.team-role { color:var(--accent); font-size:0.75rem; letter-spacing:1px; text-transform:uppercase; margin-bottom:10px; }
+.team-bio { color:var(--muted); font-size:0.82rem; line-height:1.6; }
+
+/* VALUES */
+.values-section {
+  background:var(--surface); border-top:1px solid var(--border);
+  padding:80px clamp(16px,4vw,48px);
+}
+.values-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:48px; }
+@media(max-width:768px){.values-grid{grid-template-columns:1fr;}}
+.value-card {
+  background:var(--bg); border:1px solid var(--border);
+  border-radius:var(--radius); padding:36px 28px;
+  transition:border-color .2s;
+}
+.value-card:hover { border-color:rgba(212,130,42,0.35); }
+.value-icon { font-size:2.2rem; margin-bottom:16px; }
+.value-title { font-family:'Cormorant Garamond',serif; font-size:1.2rem; font-weight:700; margin-bottom:10px; }
+.value-desc { color:var(--muted); font-size:0.88rem; line-height:1.7; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">EMBER</a>
+  <div class="nav-center" id="navCenter">
+    <a href="index.html">Home</a><a href="menu.html">Menu</a><a href="about.html">About</a><a href="reservations.html">Reserve</a><a href="contact.html">Contact</a>
+  </div>
+  <div class="nav-right">
+    <a href="cart.html"><button class="btn-cart">🛒 Cart <span class="cart-badge">0</span></button></a>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="page-body">
+
+<!-- HERO -->
+<div class="about-hero">
+  <div class="about-grid">
+    <div class="about-text">
+      <div class="section-label fade-up">Our Story</div>
+      <h1 class="fade-up delay-1">Born From Fire,<br>Built on <em>Passion</em></h1>
+      <p class="fade-up delay-2">EMBER began in 2012 as a 12-seat supper club in a converted warehouse in Banjara Hills. Chef Rohan Malhotra had one vision: bring the honesty of open-fire cooking to Hyderabad — no pretence, no tricks, just incredible ingredients and real heat.</p>
+      <p class="fade-up delay-3">Twelve years later, we're a full-scale restaurant and delivery operation, but we've never lost that original fire. Every dish still passes through the same open-flame kitchen, and every recipe is Rohan's own.</p>
+      <div class="fade-up delay-4" style="margin-top:28px;display:flex;gap:14px;flex-wrap:wrap;">
+        <a href="menu.html"><button class="btn btn-primary">Explore Our Menu →</button></a>
+        <a href="reservations.html"><button class="btn btn-outline">Book a Table</button></a>
+      </div>
+    </div>
+    <div class="about-visual fade-up delay-2">🔥</div>
+  </div>
+</div>
+
+<!-- NUMBERS -->
+<div class="numbers-strip">
+  <div class="num-item"><span class="num-big">12+</span><span class="num-label">Years of Craft</span></div>
+  <div class="num-item"><span class="num-big">48</span><span class="num-label">Signature Dishes</span></div>
+  <div class="num-item"><span class="num-big">60k+</span><span class="num-label">Happy Guests</span></div>
+  <div class="num-item"><span class="num-big">2</span><span class="num-label">Industry Awards</span></div>
+</div>
+
+<!-- STORY 1 -->
+<div class="story-section">
+  <div class="story-grid">
+    <div class="story-image">🧑‍🍳</div>
+    <div class="story-text">
+      <div class="section-label">The Beginning</div>
+      <h2>A Supper Club That Became a Movement</h2>
+      <p>It started with 12 seats, a secondhand grill, and an open invitation posted on social media. Within three months, the waiting list was 200 people long. What Chef Rohan had stumbled onto wasn't just a restaurant concept — it was a community around real food.</p>
+      <p>The philosophy was simple: use the best seasonal ingredients, cook them over live fire, and let the flavours speak for themselves. No foam, no gels, no theatre — just food that tastes extraordinary.</p>
+    </div>
+  </div>
+</div>
+
+<div class="story-section" style="padding-top:0;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="story-grid reverse" style="padding:80px 0;">
+    <div class="story-image">🌿</div>
+    <div class="story-text">
+      <div class="section-label">Our Philosophy</div>
+      <h2>Farm to Flame</h2>
+      <p>Every morning, our team visits local farms within 100km of Hyderabad. We build real relationships with the people who grow our food — knowing them by name, understanding their seasons, and adjusting our menu to what's at its best.</p>
+      <p>This isn't a marketing slogan. It's the reason our food tastes different. Freshness you can taste in every bite.</p>
+    </div>
+  </div>
+</div>
+
+<!-- TEAM -->
+<div class="team-section" style="padding-top:72px;">
+  <div style="text-align:center;margin-bottom:0;">
+    <div class="section-label">The People</div>
+    <h2 class="section-title">Meet the Makers</h2>
+    <p class="section-sub" style="max-width:500px;margin:10px auto 0;">The talented team behind every dish, every delivery, every experience.</p>
+  </div>
+  <div class="team-grid">
+    <div class="team-card"><div class="team-avatar">👨‍🍳</div><div class="team-name">Rohan Malhotra</div><div class="team-role">Head Chef & Founder</div><div class="team-bio">Trained in Lyon, staged at Noma. 18 years behind open flame. Obsessed with provenance.</div></div>
+    <div class="team-card"><div class="team-avatar">👩‍🍳</div><div class="team-name">Meera Iyer</div><div class="team-role">Sous Chef</div><div class="team-bio">Pasta specialist. Trained in Bologna, brings regional Italian soul to our Hyderabad kitchen.</div></div>
+    <div class="team-card"><div class="team-avatar">🧑‍🍳</div><div class="team-name">Kabir Das</div><div class="team-role">Pastry Chef</div><div class="team-bio">His chocolate fondant has a fan club. Dessert wizard with a neuroscience background.</div></div>
+    <div class="team-card"><div class="team-avatar">👩</div><div class="team-name">Ananya Rao</div><div class="team-role">Operations Director</div><div class="team-bio">Keeps 48 dishes, 12 delivery zones, and 24 staff running like clockwork every day.</div></div>
+    <div class="team-card"><div class="team-avatar">👨</div><div class="team-name">Siddharth Menon</div><div class="team-role">Sommelier</div><div class="team-bio">WSET Level 4. Built our wine programme from scratch. Passionate about natural wines.</div></div>
+    <div class="team-card"><div class="team-avatar">👩‍💼</div><div class="team-name">Lalitha Rao</div><div class="team-role">Head of Sourcing</div><div class="team-bio">Visits 8 farms weekly. Builds the relationships that make our food taste the way it does.</div></div>
+  </div>
+</div>
+
+<!-- VALUES -->
+<div class="values-section">
+  <div style="text-align:center;">
+    <div class="section-label">What We Stand For</div>
+    <h2 class="section-title">Our Values</h2>
+  </div>
+  <div class="values-grid">
+    <div class="value-card"><div class="value-icon">🏆</div><div class="value-title">Best New Restaurant 2015</div><div class="value-desc">Recognised by TimeOut India and the Culinary Guild of India for redefining the Hyderabad dining scene.</div></div>
+    <div class="value-card"><div class="value-icon">🌱</div><div class="value-title">Zero-Waste Kitchen</div><div class="value-desc">100% food waste composted. Packaging made from recycled materials. We measure our carbon footprint every quarter.</div></div>
+    <div class="value-card"><div class="value-icon">❤️</div><div class="value-title">Community First</div><div class="value-desc">10% of profits go to Annadanam — a programme that feeds 500 underprivileged children in Hyderabad every day.</div></div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand"><span class="footer-brand-logo">EMBER</span><p>Fine dining delivered. Where every meal is an occasion worth remembering.</p></div>
+    <div class="footer-col"><h5>Navigate</h5><a href="index.html">Home</a><a href="menu.html">Menu</a><a href="about.html">About</a><a href="reservations.html">Reserve</a><a href="contact.html">Contact</a></div>
+    <div class="footer-col"><h5>Menu</h5><a href="menu.html?cat=starters">Starters</a><a href="menu.html?cat=mains">Mains</a><a href="menu.html?cat=pasta">Pasta & Pizza</a><a href="menu.html?cat=desserts">Desserts</a></div>
+    <div class="footer-col"><h5>Info</h5><a href="#">Privacy Policy</a><a href="#">Terms of Use</a><a href="#">Refund Policy</a></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 EMBER Fine Dining</span><span>Made with 🔥 in Hyderabad</span></div>
+</footer>
+
+</div>
+<div id="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>
