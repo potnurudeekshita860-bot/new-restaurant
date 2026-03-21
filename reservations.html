@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reservations — EMBER</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.res-hero {
+  padding:72px clamp(16px,4vw,48px) 64px;
+  background:linear-gradient(160deg,var(--surface) 0%,var(--bg) 70%);
+  border-bottom:1px solid var(--border); text-align:center;
+}
+.res-hero h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(2.4rem,6vw,4.5rem); font-weight:700; margin:10px 0; }
+.res-hero p { color:var(--muted); max-width:520px; margin:0 auto; line-height:1.75; font-size:0.95rem; }
+
+.res-layout { display:grid; grid-template-columns:1fr 400px; gap:40px; padding:60px clamp(16px,4vw,48px) 80px; align-items:start; }
+@media(max-width:900px){.res-layout{grid-template-columns:1fr;}}
+
+/* FORM */
+.res-form { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:40px; }
+.res-form h2 { font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-weight:700; margin-bottom:28px; }
+.form-row-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+@media(max-width:480px){.form-row-2{grid-template-columns:1fr;}}
+
+.time-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+@media(max-width:480px){.time-grid{grid-template-columns:repeat(3,1fr);}}
+.time-slot {
+  padding:10px 4px; border-radius:8px; border:1px solid var(--border);
+  background:transparent; color:var(--muted); font-size:0.8rem; font-weight:500;
+  cursor:pointer; text-align:center; transition:all .2s;
+}
+.time-slot:hover { border-color:var(--accent); color:var(--text); }
+.time-slot.selected { background:var(--accent); color:#fff; border-color:var(--accent); }
+.time-slot.unavailable { opacity:.35; cursor:not-allowed; }
+
+.guests-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:10px; }
+.guest-btn {
+  padding:10px; border-radius:8px; border:1px solid var(--border);
+  background:transparent; color:var(--muted); font-size:0.88rem; font-weight:600;
+  cursor:pointer; transition:all .2s;
+}
+.guest-btn:hover { border-color:var(--accent); color:var(--text); }
+.guest-btn.selected { background:var(--accent); color:#fff; border-color:var(--accent); }
+
+.book-btn {
+  width:100%; padding:16px; background:var(--accent); color:#fff;
+  border:none; border-radius:10px; font-size:1rem; font-weight:700;
+  cursor:pointer; margin-top:24px; transition:background .2s;
+}
+.book-btn:hover { background:var(--accent2); }
+
+/* SIDEBAR */
+.res-sidebar { display:flex; flex-direction:column; gap:22px; }
+.info-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius); padding:28px;
+}
+.info-card h3 { font-family:'Cormorant Garamond',serif; font-size:1.2rem; font-weight:700; margin-bottom:18px; }
+.info-row { display:flex; gap:14px; margin-bottom:16px; align-items:flex-start; }
+.info-icon { font-size:1.2rem; width:38px; height:38px; background:var(--surface2); border:1px solid var(--border); border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.info-label { color:var(--muted); font-size:0.72rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:3px; }
+.info-val { font-size:0.9rem; font-weight:500; }
+
+.hours-table { width:100%; border-collapse:collapse; }
+.hours-table td { padding:7px 0; font-size:0.85rem; }
+.hours-table td:first-child { color:var(--muted); }
+.hours-table td:last-child { text-align:right; font-weight:500; }
+.closed { color:var(--dim)!important; }
+
+/* SUCCESS */
+.modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.82); backdrop-filter:blur(10px); z-index:2000; display:none; align-items:center; justify-content:center; padding:20px; }
+.modal-overlay.open { display:flex; }
+.modal { background:var(--surface); border:1px solid var(--border); border-radius:20px; padding:48px 40px; width:100%; max-width:480px; position:relative; text-align:center; animation:popIn .3s ease; }
+@keyframes popIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+.modal-close { position:absolute; top:14px; right:16px; background:none; border:none; color:var(--muted); font-size:1.4rem; cursor:pointer; }
+.modal .big-icon { font-size:4rem; margin-bottom:14px; }
+.modal h2 { font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:700; margin-bottom:14px; }
+.modal p { color:var(--muted); line-height:1.75; margin-bottom:10px; }
+.confirm-box { background:var(--surface2); border:1px solid var(--border); border-radius:10px; padding:16px; margin:16px 0; text-align:left; font-size:0.88rem; line-height:1.8; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">EMBER</a>
+  <div class="nav-center" id="navCenter">
+    <a href="index.html">Home</a><a href="menu.html">Menu</a><a href="about.html">About</a><a href="reservations.html">Reserve</a><a href="contact.html">Contact</a>
+  </div>
+  <div class="nav-right">
+    <a href="cart.html"><button class="btn-cart">🛒 Cart <span class="cart-badge">0</span></button></a>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="page-body">
+<div class="res-hero">
+  <div class="section-label fade-up">Reserve a Table</div>
+  <h1 class="fade-up delay-1">Dine With Us</h1>
+  <p class="fade-up delay-2">Book your table for the full EMBER experience. Intimate dining, open-flame kitchen, and Michelin-trained hospitality.</p>
+</div>
+
+<div class="res-layout">
+  <div class="res-form">
+    <h2>Make a Reservation</h2>
+
+    <div class="form-row-2">
+      <div class="form-group">
+        <label class="form-label">First Name</label>
+        <input type="text" class="form-input" id="fname" placeholder="Arjun">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Last Name</label>
+        <input type="text" class="form-input" id="lname" placeholder="Mehra">
+      </div>
+    </div>
+    <div class="form-row-2">
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" id="remail" placeholder="arjun@email.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Phone</label>
+        <input type="tel" class="form-input" id="rphone" placeholder="+91 98765 43210">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Date</label>
+      <input type="date" class="form-input" id="rdate">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Number of Guests</label>
+      <div class="guests-grid" id="guestsGrid">
+        <button class="guest-btn" data-g="1">1</button>
+        <button class="guest-btn" data-g="2">2</button>
+        <button class="guest-btn selected" data-g="3">3</button>
+        <button class="guest-btn" data-g="4">4</button>
+        <button class="guest-btn" data-g="5">5</button>
+        <button class="guest-btn" data-g="6">6+</button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Preferred Time</label>
+      <div class="time-grid" id="timeGrid">
+        <button class="time-slot unavailable" disabled>12:00</button>
+        <button class="time-slot" data-t="12:30">12:30</button>
+        <button class="time-slot" data-t="13:00">13:00</button>
+        <button class="time-slot unavailable" disabled>13:30</button>
+        <button class="time-slot" data-t="14:00">14:00</button>
+        <button class="time-slot" data-t="14:30">14:30</button>
+        <button class="time-slot" data-t="19:00">19:00</button>
+        <button class="time-slot selected" data-t="19:30">19:30</button>
+        <button class="time-slot" data-t="20:00">20:00</button>
+        <button class="time-slot" data-t="20:30">20:30</button>
+        <button class="time-slot unavailable" disabled>21:00</button>
+        <button class="time-slot" data-t="21:30">21:30</button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Special Requests (optional)</label>
+      <textarea class="form-input" id="rremarks" placeholder="Dietary requirements, allergies, occasion, seating preference…" style="min-height:90px;"></textarea>
+    </div>
+
+    <button class="book-btn" onclick="confirmReservation()">Confirm Reservation →</button>
+    <p style="color:var(--dim);font-size:0.75rem;text-align:center;margin-top:12px;">Free cancellation up to 24 hours before your booking.</p>
+  </div>
+
+  <div class="res-sidebar">
+    <div class="info-card">
+      <h3>Restaurant Info</h3>
+      <div class="info-row"><div class="info-icon">📍</div><div><div class="info-label">Address</div><div class="info-val">42 Flame Street, Banjara Hills<br>Hyderabad 500034</div></div></div>
+      <div class="info-row"><div class="info-icon">📞</div><div><div class="info-label">Phone</div><div class="info-val">+91 98765 43210</div></div></div>
+      <div class="info-row"><div class="info-icon">✉️</div><div><div class="info-label">Email</div><div class="info-val">hello@emberdining.in</div></div></div>
+    </div>
+
+    <div class="info-card">
+      <h3>Opening Hours</h3>
+      <table class="hours-table">
+        <tr><td>Monday</td><td class="closed">Closed</td></tr>
+        <tr><td>Tuesday–Friday</td><td>12:00 – 22:30</td></tr>
+        <tr><td>Saturday</td><td>11:00 – 23:00</td></tr>
+        <tr><td>Sunday</td><td>11:00 – 22:00</td></tr>
+        <tr><td>Delivery</td><td>11:00 – 23:00 daily</td></tr>
+      </table>
+    </div>
+
+    <div class="info-card">
+      <h3>What to Expect</h3>
+      <div style="color:var(--muted);font-size:0.85rem;line-height:1.8;">
+        <p>🔥 Open-flame kitchen theatre</p>
+        <p>🍷 Curated wine & cocktail menu</p>
+        <p>🌿 Seasonal tasting menus available</p>
+        <p>👔 Smart-casual dress code</p>
+        <p>🎂 Special occasion decor on request</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand"><span class="footer-brand-logo">EMBER</span><p>Fine dining delivered. Where every meal is an occasion worth remembering.</p></div>
+    <div class="footer-col"><h5>Navigate</h5><a href="index.html">Home</a><a href="menu.html">Menu</a><a href="about.html">About</a><a href="reservations.html">Reserve</a><a href="contact.html">Contact</a></div>
+    <div class="footer-col"><h5>Menu</h5><a href="menu.html?cat=starters">Starters</a><a href="menu.html?cat=mains">Mains</a><a href="menu.html?cat=pasta">Pasta & Pizza</a><a href="menu.html?cat=desserts">Desserts</a></div>
+    <div class="footer-col"><h5>Info</h5><a href="#">Privacy Policy</a><a href="#">Terms of Use</a><a href="#">Refund Policy</a></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 EMBER Fine Dining</span><span>Made with 🔥 in Hyderabad</span></div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="resModal">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('resModal').classList.remove('open')">✕</button>
+    <div class="big-icon">🍽</div>
+    <h2>Table Reserved!</h2>
+    <div class="confirm-box" id="confirmDetails"></div>
+    <p>A confirmation has been sent to your email. We look forward to welcoming you!</p>
+    <a href="menu.html"><button class="book-btn" style="margin-top:16px;">Browse Our Menu →</button></a>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="app.js"></script>
+<script>
+// Set min date to today
+const dateInput = document.getElementById('rdate');
+const today = new Date().toISOString().split('T')[0];
+dateInput.min = today;
+dateInput.value = today;
+
+// Guest buttons
+document.getElementById('guestsGrid').addEventListener('click', e=>{
+  const btn = e.target.closest('.guest-btn');
+  if(!btn) return;
+  document.querySelectorAll('.guest-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+});
+
+// Time slots
+document.getElementById('timeGrid').addEventListener('click', e=>{
+  const btn = e.target.closest('.time-slot:not(.unavailable)');
+  if(!btn) return;
+  document.querySelectorAll('.time-slot').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+});
+
+function confirmReservation() {
+  const fname = document.getElementById('fname').value.trim();
+  const lname = document.getElementById('lname').value.trim();
+  const email = document.getElementById('remail').value.trim();
+  const date = document.getElementById('rdate').value;
+  const guests = document.querySelector('.guest-btn.selected')?.dataset.g || '3';
+  const time = document.querySelector('.time-slot.selected')?.dataset.t || '19:30';
+
+  if(!fname || !email || !date) { showToast('❌ Please fill in all required fields'); return; }
+
+  const formatted = new Date(date).toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('confirmDetails').innerHTML =
+    `👤 <strong>${fname} ${lname}</strong><br>
+     📅 ${formatted}<br>
+     🕖 ${time}<br>
+     👥 ${guests} guest${guests==='1'?'':'s'}<br>
+     📧 Confirmation → ${email}`;
+
+  document.getElementById('resModal').classList.add('open');
+}
+</script>
+</body>
+</html>
