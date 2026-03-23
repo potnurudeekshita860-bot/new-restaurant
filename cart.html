@@ -1,1116 +1,704 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-THVGVQ045D"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-THVGVQ045D');
-</script>
-  <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-TTHWMVHZ');</script>
-<!-- End Google Tag Manager -->
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cart — EMBER</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --ember-black: #0a0806;
-      --ember-dark: #111009;
-      --ember-card: #16130e;
-      --ember-border: #2a2318;
-      --ember-gold: #c8963e;
-      --ember-gold-light: #e8b86d;
-      --ember-fire: #e05a1a;
-      --ember-cream: #f0e8d8;
-      --ember-muted: #7a6a52;
-      --ember-text: #d4c4a8;
-      --radius: 4px;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--ember-black);
-      color: var(--ember-text);
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 300;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* ── NAV ── */
-    nav {
-      position: sticky; top: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 3rem;
-      height: 68px;
-      background: rgba(10,8,6,0.92);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--ember-border);
-    }
-
-    .nav-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.6rem;
-      font-weight: 600;
-      color: var(--ember-gold);
-      letter-spacing: 0.12em;
-      text-decoration: none;
-    }
-
-    .nav-links {
-      display: flex; align-items: center; gap: 2rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      font-size: 0.78rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--ember-muted);
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--ember-cream); }
-
-    .nav-cart-btn {
-      display: flex; align-items: center; gap: 0.5rem;
-      padding: 0.45rem 1.1rem;
-      border: 1px solid var(--ember-gold);
-      border-radius: 2px;
-      color: var(--ember-gold) !important;
-      font-size: 0.78rem !important;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      text-decoration: none;
-      transition: background 0.2s, color 0.2s !important;
-    }
-    .nav-cart-btn:hover {
-      background: var(--ember-gold) !important;
-      color: var(--ember-black) !important;
-    }
-
-    /* ── PAGE HEADER ── */
-    .page-header {
-      position: relative;
-      padding: 5rem 3rem 3rem;
-      border-bottom: 1px solid var(--ember-border);
-      overflow: hidden;
-    }
-
-    .page-header::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-      background: radial-gradient(ellipse 60% 80% at 10% 50%, rgba(200,150,62,0.06) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .breadcrumb {
-      font-size: 0.72rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--ember-muted);
-      margin-bottom: 1.2rem;
-    }
-    .breadcrumb a { color: var(--ember-muted); text-decoration: none; }
-    .breadcrumb span { color: var(--ember-gold); }
-
-    .page-header h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.4rem, 5vw, 3.6rem);
-      font-weight: 300;
-      color: var(--ember-cream);
-      line-height: 1;
-      letter-spacing: 0.02em;
-    }
-
-    .page-header h1 em {
-      font-style: italic;
-      color: var(--ember-gold);
-    }
-
-    /* ── MAIN LAYOUT ── */
-    .cart-layout {
-      display: grid;
-      grid-template-columns: 1fr 380px;
-      gap: 2px;
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 2rem 3rem 6rem;
-      align-items: start;
-    }
-
-    /* ── CART ITEMS ── */
-    .cart-items-section {}
-
-    .section-label {
-      font-size: 0.68rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--ember-muted);
-      margin-bottom: 1.5rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 1px solid var(--ember-border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .clear-btn {
-      background: none; border: none; cursor: pointer;
-      color: var(--ember-muted);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.68rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      transition: color 0.2s;
-    }
-    .clear-btn:hover { color: var(--ember-fire); }
-
-    /* ── CART ITEM CARD ── */
-    .cart-item {
-      display: grid;
-      grid-template-columns: 56px 1fr auto;
-      gap: 1.2rem;
-      align-items: center;
-      padding: 1.4rem 1.6rem;
-      background: var(--ember-card);
-      border: 1px solid var(--ember-border);
-      margin-bottom: 2px;
-      transition: border-color 0.2s;
-      animation: slideIn 0.35s ease both;
-    }
-
-    .cart-item:first-child { border-top-left-radius: var(--radius); border-top-right-radius: var(--radius); }
-    .cart-item:last-child { border-bottom-left-radius: var(--radius); border-bottom-right-radius: var(--radius); }
-
-    .cart-item:hover { border-color: var(--ember-gold); }
-
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateY(12px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .item-emoji {
-      width: 56px; height: 56px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.8rem;
-      background: var(--ember-dark);
-      border-radius: var(--radius);
-      border: 1px solid var(--ember-border);
-      flex-shrink: 0;
-    }
-
-    .item-info {}
-    .item-badge {
-      display: inline-block;
-      font-size: 0.6rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--ember-gold);
-      margin-bottom: 0.3rem;
-    }
-
-    .item-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.15rem;
-      font-weight: 400;
-      color: var(--ember-cream);
-      line-height: 1.2;
-      margin-bottom: 0.2rem;
-    }
-
-    .item-desc {
-      font-size: 0.75rem;
-      color: var(--ember-muted);
-      line-height: 1.5;
-      max-width: 340px;
-    }
-
-    .item-controls {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 0.8rem;
-    }
-
-    .item-price {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: var(--ember-gold);
-    }
-
-    .qty-controls {
-      display: flex;
-      align-items: center;
-      gap: 0;
-      border: 1px solid var(--ember-border);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-
-    .qty-btn {
-      width: 32px; height: 32px;
-      background: var(--ember-dark);
-      border: none;
-      color: var(--ember-muted);
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.15s, color 0.15s;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .qty-btn:hover { background: var(--ember-gold); color: var(--ember-black); }
-
-    .qty-display {
-      width: 36px; height: 32px;
-      background: var(--ember-card);
-      color: var(--ember-cream);
-      font-size: 0.85rem;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 500;
-      border-left: 1px solid var(--ember-border);
-      border-right: 1px solid var(--ember-border);
-    }
-
-    .remove-btn {
-      background: none; border: none; cursor: pointer;
-      color: var(--ember-border);
-      font-size: 0.7rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      transition: color 0.2s;
-      font-family: 'DM Sans', sans-serif;
-    }
-    .remove-btn:hover { color: var(--ember-fire); }
-
-    /* ── SPECIAL INSTRUCTIONS ── */
-    .special-instructions {
-      margin-top: 2rem;
-      padding: 1.4rem 1.6rem;
-      background: var(--ember-card);
-      border: 1px solid var(--ember-border);
-      border-radius: var(--radius);
-    }
-
-    .special-instructions label {
-      display: block;
-      font-size: 0.68rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--ember-muted);
-      margin-bottom: 0.8rem;
-    }
-
-    .special-instructions textarea {
-      width: 100%;
-      height: 80px;
-      background: var(--ember-dark);
-      border: 1px solid var(--ember-border);
-      border-radius: 2px;
-      color: var(--ember-cream);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.85rem;
-      padding: 0.75rem 1rem;
-      resize: none;
-      transition: border-color 0.2s;
-      outline: none;
-    }
-    .special-instructions textarea::placeholder { color: var(--ember-muted); }
-    .special-instructions textarea:focus { border-color: var(--ember-gold); }
-
-    /* ── ORDER SUMMARY ── */
-    .order-summary {
-      position: sticky;
-      top: 88px;
-      background: var(--ember-card);
-      border: 1px solid var(--ember-border);
-      border-radius: var(--radius);
-      overflow: hidden;
-    }
-
-    .summary-header {
-      padding: 1.4rem 1.6rem;
-      border-bottom: 1px solid var(--ember-border);
-      background: var(--ember-dark);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .summary-header h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.2rem;
-      font-weight: 400;
-      color: var(--ember-cream);
-      letter-spacing: 0.05em;
-    }
-
-    .summary-fire { font-size: 1.1rem; }
-
-    .summary-body { padding: 1.6rem; }
-
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.9rem;
-      font-size: 0.82rem;
-    }
-
-    .summary-row .label { color: var(--ember-muted); }
-    .summary-row .value { color: var(--ember-cream); font-weight: 500; }
-    .summary-row .value.green { color: #6abf7b; }
-
-    .summary-divider {
-      height: 1px;
-      background: var(--ember-border);
-      margin: 1.2rem 0;
-    }
-
-    .summary-total {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 0.4rem;
-    }
-
-    .summary-total .total-label {
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--ember-muted);
-    }
-
-    .summary-total .total-value {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2rem;
-      font-weight: 600;
-      color: var(--ember-gold);
-    }
-
-    .gst-note {
-      font-size: 0.68rem;
-      color: var(--ember-muted);
-      text-align: right;
-      margin-bottom: 1.6rem;
-    }
-
-    /* ── DELIVERY TOGGLE ── */
-    .delivery-toggle {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2px;
-      margin-bottom: 1.4rem;
-    }
-
-    .toggle-opt {
-      padding: 0.7rem;
-      text-align: center;
-      background: var(--ember-dark);
-      border: 1px solid var(--ember-border);
-      border-radius: 2px;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-size: 0.75rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--ember-muted);
-      user-select: none;
-    }
-
-    .toggle-opt.active {
-      background: rgba(200,150,62,0.12);
-      border-color: var(--ember-gold);
-      color: var(--ember-gold);
-    }
-
-    /* ── PROMO ── */
-    .promo-row {
-      display: flex;
-      gap: 6px;
-      margin-bottom: 1.4rem;
-    }
-
-    .promo-input {
-      flex: 1;
-      background: var(--ember-dark);
-      border: 1px solid var(--ember-border);
-      border-radius: 2px;
-      color: var(--ember-cream);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.8rem;
-      padding: 0.6rem 0.9rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .promo-input::placeholder { color: var(--ember-muted); text-transform: uppercase; letter-spacing: 0.08em; }
-    .promo-input:focus { border-color: var(--ember-gold); }
-
-    .promo-apply-btn {
-      padding: 0.6rem 1rem;
-      background: none;
-      border: 1px solid var(--ember-border);
-      border-radius: 2px;
-      color: var(--ember-muted);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.72rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .promo-apply-btn:hover {
-      border-color: var(--ember-gold);
-      color: var(--ember-gold);
-    }
-
-    /* ── CTA BUTTON ── */
-    .checkout-btn {
-      width: 100%;
-      padding: 1rem;
-      background: var(--ember-gold);
-      border: none;
-      border-radius: 2px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 500;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--ember-black);
-      cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.6rem;
-    }
-    .checkout-btn:hover { background: var(--ember-gold-light); }
-    .checkout-btn:active { transform: scale(0.99); }
-
-    .continue-link {
-      display: block;
-      text-align: center;
-      margin-top: 1rem;
-      font-size: 0.72rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--ember-muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .continue-link:hover { color: var(--ember-cream); }
-
-    /* ── TRUST BADGES ── */
-    .trust-badges {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0;
-      border-top: 1px solid var(--ember-border);
-    }
-
-    .trust-badge {
-      padding: 1rem 0.6rem;
-      text-align: center;
-      border-right: 1px solid var(--ember-border);
-    }
-    .trust-badge:last-child { border-right: none; }
-
-    .trust-badge .icon { font-size: 1.2rem; display: block; margin-bottom: 0.3rem; }
-    .trust-badge .text { font-size: 0.62rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ember-muted); }
-
-    /* ── EMPTY STATE ── */
-    .empty-state {
-      text-align: center;
-      padding: 5rem 2rem;
-      display: none;
-    }
-
-    .empty-flame { font-size: 3.5rem; display: block; margin-bottom: 1.2rem; opacity: 0.4; }
-
-    .empty-state h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.8rem;
-      font-weight: 300;
-      color: var(--ember-cream);
-      margin-bottom: 0.5rem;
-    }
-    .empty-state p { color: var(--ember-muted); font-size: 0.85rem; margin-bottom: 1.8rem; }
-
-    .browse-menu-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.8rem 2rem;
-      border: 1px solid var(--ember-gold);
-      border-radius: 2px;
-      color: var(--ember-gold);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.75rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      text-decoration: none;
-      transition: background 0.2s, color 0.2s;
-    }
-    .browse-menu-btn:hover { background: var(--ember-gold); color: var(--ember-black); }
-
-    /* ── UPSELL ── */
-    .upsell-section {
-      margin-top: 2rem;
-    }
-
-    .upsell-section .section-label { margin-bottom: 1rem; }
-
-    .upsell-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2px;
-    }
-
-    .upsell-card {
-      padding: 1rem;
-      background: var(--ember-card);
-      border: 1px solid var(--ember-border);
-      border-radius: var(--radius);
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      transition: border-color 0.2s;
-      cursor: pointer;
-    }
-    .upsell-card:hover { border-color: var(--ember-gold); }
-
-    .upsell-emoji { font-size: 1.6rem; flex-shrink: 0; }
-
-    .upsell-info {}
-    .upsell-name {
-      font-size: 0.82rem;
-      color: var(--ember-cream);
-      font-weight: 500;
-      margin-bottom: 0.1rem;
-    }
-    .upsell-price {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.95rem;
-      color: var(--ember-gold);
-    }
-
-    .upsell-add {
-      margin-left: auto;
-      width: 28px; height: 28px;
-      border: 1px solid var(--ember-border);
-      border-radius: 2px;
-      background: none;
-      color: var(--ember-muted);
-      font-size: 1.1rem;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: background 0.15s, color 0.15s, border-color 0.15s;
-      flex-shrink: 0;
-    }
-    .upsell-add:hover { background: var(--ember-gold); color: var(--ember-black); border-color: var(--ember-gold); }
-
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid var(--ember-border);
-      padding: 2.5rem 3rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .footer-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: var(--ember-gold);
-      letter-spacing: 0.1em;
-    }
-
-    .footer-copy {
-      font-size: 0.72rem;
-      color: var(--ember-muted);
-      letter-spacing: 0.04em;
-    }
-
-    /* ── TOAST ── */
-    .toast {
-      position: fixed;
-      bottom: 2rem; right: 2rem;
-      background: var(--ember-card);
-      border: 1px solid var(--ember-gold);
-      border-radius: var(--radius);
-      padding: 0.8rem 1.4rem;
-      color: var(--ember-cream);
-      font-size: 0.82rem;
-      z-index: 200;
-      transform: translateY(80px);
-      opacity: 0;
-      transition: transform 0.3s, opacity 0.3s;
-      pointer-events: none;
-    }
-    .toast.show { transform: translateY(0); opacity: 1; }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
-      nav { padding: 0 1.5rem; }
-      .nav-links { display: none; }
-
-      .page-header { padding: 3rem 1.5rem 2rem; }
-
-      .cart-layout {
-        grid-template-columns: 1fr;
-        padding: 1.5rem 1.5rem 4rem;
-      }
-
-      .order-summary { position: static; }
-
-      .upsell-grid { grid-template-columns: 1fr; }
-
-      footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
-    }
-
-    /* ── PROMO SUCCESS ── */
-    .promo-success {
-      font-size: 0.72rem;
-      color: #6abf7b;
-      letter-spacing: 0.06em;
-      margin-top: 0.4rem;
-      display: none;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Your Cart — EMBER</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0704;
+    --surface: #110d09;
+    --surface2: #1a1410;
+    --border: #2a2018;
+    --ember: #e8621a;
+    --ember-dim: #7a3410;
+    --gold: #c9a84c;
+    --gold-dim: #6b5520;
+    --text: #f0e8dc;
+    --text-dim: #8a7a68;
+    --text-muted: #4a3e32;
+    --green: #5a8a5a;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,7,4,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw;
+    height: 64px;
+  }
+  .nav-logo {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem; letter-spacing: .15em;
+    color: var(--gold); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--text-dim); text-decoration: none;
+    font-size: .78rem; letter-spacing: .12em; text-transform: uppercase;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cart {
+    display: flex; align-items: center; gap: .5rem;
+    background: var(--ember); color: #fff;
+    padding: .45rem 1rem; border-radius: 2px;
+    font-size: .78rem; letter-spacing: .08em;
+    text-decoration: none; font-weight: 500;
+    transition: background .2s;
+  }
+  .nav-cart:hover { background: #c04d10; }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    padding: 4rem 5vw 2.5rem;
+    border-bottom: 1px solid var(--border);
+    position: relative; overflow: hidden;
+  }
+  .page-header::before {
+    content: '';
+    position: absolute; top: -60px; right: -60px;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, rgba(232,98,26,.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .breadcrumb {
+    font-size: .72rem; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 1rem;
+  }
+  .breadcrumb a { color: var(--ember); text-decoration: none; }
+  .breadcrumb span { margin: 0 .5rem; }
+  .page-header h1 {
+    font-family: 'Cinzel', serif; font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 400; letter-spacing: .06em; color: var(--text);
+    line-height: 1.1;
+  }
+  .page-header p { color: var(--text-dim); margin-top: .6rem; font-size: .95rem; }
+
+  /* ── LAYOUT ── */
+  .cart-layout {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 2px;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 5vw 6rem;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .cart-layout { grid-template-columns: 1fr; }
+    .order-summary { position: static !important; }
+  }
+
+  /* ── CART ITEMS ── */
+  .cart-items-section { padding: 2.5rem 0; }
+  .section-label {
+    font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .section-label::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+
+  .cart-item {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    gap: 1rem;
+    align-items: start;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border);
+    animation: fadeIn .3s ease forwards;
+    opacity: 0;
+  }
+  .cart-item:nth-child(1) { animation-delay: .05s; }
+  .cart-item:nth-child(2) { animation-delay: .1s; }
+  .cart-item:nth-child(3) { animation-delay: .15s; }
+  .cart-item:nth-child(4) { animation-delay: .2s; }
+  @keyframes fadeIn { to { opacity: 1; } }
+
+  .item-emoji {
+    width: 56px; height: 56px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem;
+    flex-shrink: 0;
+  }
+  .item-info { min-width: 0; }
+  .item-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem; font-weight: 400;
+    color: var(--text); line-height: 1.2;
+    margin-bottom: .25rem;
+  }
+  .item-cat {
+    font-size: .7rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--ember); margin-bottom: .6rem;
+  }
+  .qty-controls {
+    display: flex; align-items: center; gap: 0;
+    width: fit-content;
+    border: 1px solid var(--border); border-radius: 2px;
+  }
+  .qty-btn {
+    width: 32px; height: 32px;
+    background: none; border: none; cursor: pointer;
+    color: var(--text-dim); font-size: 1rem; line-height: 1;
+    transition: color .15s, background .15s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .qty-btn:hover { background: var(--surface2); color: var(--text); }
+  .qty-val {
+    width: 36px; text-align: center;
+    font-size: .9rem; color: var(--text);
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    height: 32px; line-height: 32px;
+    user-select: none;
+  }
+
+  .item-right {
+    display: flex; flex-direction: column; align-items: flex-end;
+    gap: .6rem;
+  }
+  .item-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem; color: var(--gold);
+  }
+  .remove-btn {
+    background: none; border: none; cursor: pointer;
+    color: var(--text-muted); font-size: .7rem;
+    letter-spacing: .1em; text-transform: uppercase;
+    padding: .2rem 0;
+    transition: color .15s;
+  }
+  .remove-btn:hover { color: #c04040; }
+
+  /* Empty cart */
+  .empty-cart {
+    text-align: center; padding: 5rem 2rem;
+    display: none;
+  }
+  .empty-cart .flame { font-size: 3rem; margin-bottom: 1rem; opacity: .4; }
+  .empty-cart h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem; font-weight: 300; color: var(--text-dim);
+    margin-bottom: .5rem;
+  }
+  .empty-cart p { color: var(--text-muted); font-size: .9rem; margin-bottom: 2rem; }
+  .empty-cart a {
+    display: inline-block;
+    border: 1px solid var(--ember); color: var(--ember);
+    padding: .7rem 2rem; font-size: .78rem;
+    letter-spacing: .15em; text-transform: uppercase;
+    text-decoration: none; transition: background .2s, color .2s;
+  }
+  .empty-cart a:hover { background: var(--ember); color: #fff; }
+
+  /* ── PROMO CODE ── */
+  .promo-row {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .promo-label {
+    font-size: .7rem; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: .8rem;
+  }
+  .promo-field {
+    display: flex; gap: 0;
+  }
+  .promo-input {
+    flex: 1;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-right: none;
+    color: var(--text); font-family: 'Jost', sans-serif;
+    font-size: .9rem; padding: .7rem 1rem;
+    outline: none;
+    transition: border-color .2s;
+  }
+  .promo-input:focus { border-color: var(--ember-dim); }
+  .promo-input::placeholder { color: var(--text-muted); }
+  .promo-apply {
+    background: var(--surface2); border: 1px solid var(--border);
+    color: var(--text-dim); cursor: pointer;
+    padding: .7rem 1.2rem; font-family: 'Jost', sans-serif;
+    font-size: .75rem; letter-spacing: .12em; text-transform: uppercase;
+    transition: background .2s, color .2s;
+  }
+  .promo-apply:hover { background: var(--border); color: var(--text); }
+  .promo-msg { font-size: .8rem; margin-top: .5rem; min-height: 1.2rem; }
+  .promo-msg.success { color: var(--green); }
+  .promo-msg.error { color: #c04040; }
+
+  /* ── ORDER SUMMARY ── */
+  .order-summary {
+    position: sticky; top: 80px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    margin-top: 2.5rem;
+  }
+  .summary-title {
+    font-family: 'Cinzel', serif; font-size: 1rem;
+    letter-spacing: .12em; color: var(--gold);
+    margin-bottom: 1.5rem;
+  }
+  .summary-row {
+    display: flex; justify-content: space-between;
+    padding: .6rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: .9rem; color: var(--text-dim);
+  }
+  .summary-row.total {
+    border-bottom: none; margin-top: .5rem;
+    font-size: 1.2rem; color: var(--text);
+    font-family: 'Cormorant Garamond', serif; font-weight: 600;
+  }
+  .summary-row.total span:last-child { color: var(--gold); }
+  .summary-row.savings { color: var(--green); border-bottom: none; }
+  .delivery-badge {
+    margin: 1.2rem 0;
+    background: rgba(90,138,90,.1);
+    border: 1px solid rgba(90,138,90,.25);
+    border-radius: 2px; padding: .6rem 1rem;
+    font-size: .78rem; color: var(--green);
+    display: flex; align-items: center; gap: .5rem;
+  }
+
+  .checkout-btn {
+    display: block; width: 100%; margin-top: 1.5rem;
+    background: var(--ember); color: #fff; border: none; cursor: pointer;
+    padding: 1rem; font-family: 'Cinzel', serif;
+    font-size: .85rem; letter-spacing: .15em;
+    transition: background .2s, transform .1s;
+    text-align: center; text-decoration: none;
+  }
+  .checkout-btn:hover { background: #c04d10; }
+  .checkout-btn:active { transform: scale(.98); }
+
+  .secure-note {
+    text-align: center; margin-top: 1rem;
+    font-size: .7rem; color: var(--text-muted);
+    letter-spacing: .08em;
+  }
+  .secure-note span { margin: 0 .4rem; }
+
+  /* ── DELIVERY INFO ── */
+  .delivery-form {
+    padding: 2.5rem 0 0;
+  }
+  .form-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    margin-top: 1rem;
+  }
+  .form-grid .full { grid-column: 1 / -1; }
+  .form-group { display: flex; flex-direction: column; gap: .4rem; }
+  .form-group label {
+    font-size: .7rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .form-group input, .form-group select, .form-group textarea {
+    background: var(--surface2); border: 1px solid var(--border);
+    color: var(--text); font-family: 'Jost', sans-serif;
+    font-size: .9rem; padding: .7rem 1rem; outline: none;
+    transition: border-color .2s;
+    -webkit-appearance: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: var(--ember-dim); }
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color: var(--text-muted); }
+  .form-group select { color: var(--text-dim); }
+  .form-group select option { background: var(--surface2); }
+  .form-group textarea { resize: vertical; min-height: 80px; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 3rem 5vw;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1.5rem;
+  }
+  .footer-brand {
+    font-family: 'Cinzel', serif; font-size: 1.2rem;
+    letter-spacing: .15em; color: var(--gold);
+  }
+  .footer-tagline { color: var(--text-muted); font-size: .8rem; margin-top: .25rem; }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a {
+    color: var(--text-muted); font-size: .75rem;
+    letter-spacing: .1em; text-transform: uppercase; text-decoration: none;
+    transition: color .2s;
+  }
+  .footer-links a:hover { color: var(--text-dim); }
+  .footer-copy { color: var(--text-muted); font-size: .75rem; }
+
+  @media (max-width: 640px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .form-grid .full { grid-column: 1; }
+    nav .nav-links { display: none; }
+  }
+</style>
 </head>
 <body>
-  <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TTHWMVHZ"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
 
 <!-- NAV -->
 <nav>
-  <a class="nav-logo" href="https://potnurudeekshita860-bot.github.io/new-restaurant/index.html">EMBER</a>
+  <a href="index.html" class="nav-logo">EMBER</a>
   <ul class="nav-links">
-    <li><a href="https://potnurudeekshita860-bot.github.io/new-restaurant/index.html">Home</a></li>
-    <li><a href="https://potnurudeekshita860-bot.github.io/new-restaurant/menu.html">Menu</a></li>
-    <li><a href="https://potnurudeekshita860-bot.github.io/new-restaurant/about.html">About</a></li>
-    <li><a href="https://potnurudeekshita860-bot.github.io/new-restaurant/reservations.html">Reserve</a></li>
-    <li><a href="https://potnurudeekshita860-bot.github.io/new-restaurant/contact.html">Contact</a></li>
-    <li><a class="nav-cart-btn" href="cart.html">🛒 Cart <span id="nav-count">3</span></a></li>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="menu.html">Menu</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="reservations.html">Reserve</a></li>
+    <li><a href="contact.html">Contact</a></li>
   </ul>
+  <a href="cart.html" class="nav-cart" id="navCartLink">🛒 Cart <span id="navCount">0</span></a>
 </nav>
 
 <!-- PAGE HEADER -->
 <div class="page-header">
   <div class="breadcrumb">
-    <a href="https://potnurudeekshita860-bot.github.io/new-restaurant/index.html">Home</a>
-    &nbsp;/&nbsp;
-    <a href="https://potnurudeekshita860-bot.github.io/new-restaurant/menu.html">Menu</a>
-    &nbsp;/&nbsp;
-    <span>Your Cart</span>
+    <a href="index.html">Home</a><span>·</span>
+    <a href="menu.html">Menu</a><span>·</span>
+    Your Cart
   </div>
-  <h1>Your <em>Order</em></h1>
+  <h1>Your Cart</h1>
+  <p id="cartSubtitle">Review your selections before checkout</p>
 </div>
 
 <!-- MAIN -->
-<main class="cart-layout" id="main-layout">
+<div class="cart-layout">
 
-  <!-- LEFT: ITEMS -->
-  <div class="cart-items-section">
+  <!-- LEFT: Items + Form -->
+  <div>
+    <div class="cart-items-section">
+      <div class="section-label">Order Items</div>
 
-    <div class="section-label">
-      <span id="item-count-label">3 Items</span>
-      <button class="clear-btn" onclick="clearCart()">Clear all</button>
-    </div>
+      <!-- Items rendered by JS -->
+      <div id="cartItemsList"></div>
 
-    <div id="cart-items-container">
-
-      <div class="cart-item" id="item-1" style="animation-delay:0s">
-        <div class="item-emoji">🥩</div>
-        <div class="item-info">
-          <div class="item-badge">⭐ Signature · Mains</div>
-          <div class="item-name">Ember-Charred Ribeye</div>
-          <div class="item-desc">28-day dry-aged prime cut, finished over open flame with truffle pomme purée, bone marrow jus.</div>
-        </div>
-        <div class="item-controls">
-          <div class="item-price" id="price-1">₹1,850</div>
-          <div class="qty-controls">
-            <button class="qty-btn" onclick="changeQty(1,-1)">−</button>
-            <div class="qty-display" id="qty-1">1</div>
-            <button class="qty-btn" onclick="changeQty(1,1)">+</button>
-          </div>
-          <button class="remove-btn" onclick="removeItem(1)">Remove</button>
-        </div>
-      </div>
-
-      <div class="cart-item" id="item-2" style="animation-delay:0.06s">
-        <div class="item-emoji">🍝</div>
-        <div class="item-info">
-          <div class="item-badge">🔥 Fan Favourite · Pasta</div>
-          <div class="item-name">Black Truffle Tagliolini</div>
-          <div class="item-desc">Hand-rolled egg pasta, freshly shaved Périgord truffle, 24-month aged Parmigiano Reggiano.</div>
-        </div>
-        <div class="item-controls">
-          <div class="item-price" id="price-2">₹2,560</div>
-          <div class="qty-controls">
-            <button class="qty-btn" onclick="changeQty(2,-1)">−</button>
-            <div class="qty-display" id="qty-2">2</div>
-            <button class="qty-btn" onclick="changeQty(2,1)">+</button>
-          </div>
-          <button class="remove-btn" onclick="removeItem(2)">Remove</button>
-        </div>
-      </div>
-
-      <div class="cart-item" id="item-3" style="animation-delay:0.12s">
-        <div class="item-emoji">🍷</div>
-        <div class="item-info">
-          <div class="item-badge">🍷 Drinks</div>
-          <div class="item-name">Aged Barolo, 2018</div>
-          <div class="item-desc">Full-bodied Nebbiolo from Piedmont with notes of dried roses, tar, and tobacco. Perfectly aged.</div>
-        </div>
-        <div class="item-controls">
-          <div class="item-price" id="price-3">₹980</div>
-          <div class="qty-controls">
-            <button class="qty-btn" onclick="changeQty(3,-1)">−</button>
-            <div class="qty-display" id="qty-3">1</div>
-            <button class="qty-btn" onclick="changeQty(3,1)">+</button>
-          </div>
-          <button class="remove-btn" onclick="removeItem(3)">Remove</button>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- EMPTY STATE -->
-    <div class="empty-state" id="empty-state">
-      <span class="empty-flame">🔥</span>
-      <h3>Your cart is cold</h3>
-      <p>Add some dishes to get the fire going again.</p>
-      <a href="https://potnurudeekshita860-bot.github.io/new-restaurant/menu.html" class="browse-menu-btn">Browse Menu →</a>
-    </div>
-
-    <!-- SPECIAL INSTRUCTIONS -->
-    <div class="special-instructions" id="special-instructions-box">
-      <label>Special Instructions</label>
-      <textarea placeholder="Allergies, preferences, or any special requests for the kitchen..."></textarea>
-    </div>
-
-    <!-- UPSELL -->
-    <div class="upsell-section" id="upsell-section">
-      <div class="section-label">
-        <span>You might also enjoy</span>
-      </div>
-      <div class="upsell-grid">
-        <div class="upsell-card">
-          <div class="upsell-emoji">🍞</div>
-          <div class="upsell-info">
-            <div class="upsell-name">Ember Bread & Whipped Butter</div>
-            <div class="upsell-price">₹320</div>
-          </div>
-          <button class="upsell-add" onclick="addUpsell('Ember Bread & Whipped Butter', 320, '🍞')">+</button>
-        </div>
-        <div class="upsell-card">
-          <div class="upsell-emoji">🍰</div>
-          <div class="upsell-info">
-            <div class="upsell-name">Burnt Basque Cheesecake</div>
-            <div class="upsell-price">₹480</div>
-          </div>
-          <button class="upsell-add" onclick="addUpsell('Burnt Basque Cheesecake', 480, '🍰')">+</button>
-        </div>
-        <div class="upsell-card">
-          <div class="upsell-emoji">🥗</div>
-          <div class="upsell-info">
-            <div class="upsell-name">Charred Caesar Salad</div>
-            <div class="upsell-price">₹560</div>
-          </div>
-          <button class="upsell-add" onclick="addUpsell('Charred Caesar Salad', 560, '🥗')">+</button>
-        </div>
-        <div class="upsell-card">
-          <div class="upsell-emoji">🍨</div>
-          <div class="upsell-info">
-            <div class="upsell-name">Smoked Vanilla Ice Cream</div>
-            <div class="upsell-price">₹280</div>
-          </div>
-          <button class="upsell-add" onclick="addUpsell('Smoked Vanilla Ice Cream', 280, '🍨')">+</button>
-        </div>
+      <!-- Empty state -->
+      <div class="empty-cart" id="emptyCart">
+        <div class="flame">🔥</div>
+        <h3>Your cart is cold</h3>
+        <p>Add some fire to your order from our menu.</p>
+        <a href="menu.html">Browse the Menu →</a>
       </div>
     </div>
 
-  </div><!-- end cart-items-section -->
-
-
-  <!-- RIGHT: ORDER SUMMARY -->
-  <div class="order-summary">
-    <div class="summary-header">
-      <h2>Order Summary</h2>
-      <span class="summary-fire">🔥</span>
+    <!-- Promo -->
+    <div class="promo-row" id="promoRow">
+      <div class="promo-label">Promo / Gift Code</div>
+      <div class="promo-field">
+        <input class="promo-input" id="promoInput" type="text" placeholder="Enter code e.g. EMBER10">
+        <button class="promo-apply" onclick="applyPromo()">Apply</button>
+      </div>
+      <div class="promo-msg" id="promoMsg"></div>
     </div>
 
-    <div class="summary-body">
-
-      <!-- Delivery / Pickup Toggle -->
-      <div class="delivery-toggle">
-        <div class="toggle-opt active" id="toggle-delivery" onclick="setDelivery(true)">🛵 Delivery</div>
-        <div class="toggle-opt" id="toggle-pickup" onclick="setDelivery(false)">🏃 Pickup</div>
-      </div>
-
-      <!-- Rows -->
-      <div class="summary-row">
-        <span class="label">Subtotal</span>
-        <span class="value" id="subtotal-val">₹5,390</span>
-      </div>
-      <div class="summary-row" id="delivery-row">
-        <span class="label">Delivery fee</span>
-        <span class="value" id="delivery-val">₹60</span>
-      </div>
-      <div class="summary-row">
-        <span class="label">GST (5%)</span>
-        <span class="value" id="gst-val">₹270</span>
-      </div>
-      <div class="summary-row" id="discount-row" style="display:none">
-        <span class="label">Promo discount</span>
-        <span class="value green" id="discount-val">−₹0</span>
-      </div>
-
-      <div class="summary-divider"></div>
-
-      <div class="summary-total">
-        <span class="total-label">Total</span>
-        <span class="total-value" id="total-val">₹5,720</span>
-      </div>
-      <div class="gst-note">Inclusive of all taxes</div>
-
-      <!-- Promo -->
-      <div class="promo-row">
-        <input type="text" class="promo-input" id="promo-input" placeholder="Promo code" maxlength="20"/>
-        <button class="promo-apply-btn" onclick="applyPromo()">Apply</button>
-      </div>
-      <div class="promo-success" id="promo-success">🎉 EMBER10 applied — 10% off!</div>
-
-      <!-- CTA -->
-      <button class="checkout-btn" onclick="checkout()">
-        Proceed to Checkout →
-      </button>
-      <a href="https://potnurudeekshita860-bot.github.io/new-restaurant/menu.html" class="continue-link">← Continue browsing menu</a>
-
-    </div><!-- end summary-body -->
-
-    <div class="trust-badges">
-      <div class="trust-badge">
-        <span class="icon">⚡</span>
-        <span class="text">30-min<br>delivery</span>
-      </div>
-      <div class="trust-badge">
-        <span class="icon">🔒</span>
-        <span class="text">Secure<br>payment</span>
-      </div>
-      <div class="trust-badge">
-        <span class="icon">🌿</span>
-        <span class="text">Farm<br>fresh</span>
+    <!-- Delivery info -->
+    <div class="delivery-form" id="deliveryForm">
+      <div class="section-label">Delivery Details</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" id="fname" placeholder="Arjun">
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" id="lname" placeholder="Mehra">
+        </div>
+        <div class="form-group full">
+          <label>Mobile Number</label>
+          <input type="tel" id="phone" placeholder="+91 98765 43210">
+        </div>
+        <div class="form-group full">
+          <label>Delivery Address</label>
+          <input type="text" id="address" placeholder="Flat / House No, Street, Area">
+        </div>
+        <div class="form-group">
+          <label>City</label>
+          <input type="text" id="city" placeholder="Hyderabad">
+        </div>
+        <div class="form-group">
+          <label>Pincode</label>
+          <input type="text" id="pin" placeholder="500001">
+        </div>
+        <div class="form-group full">
+          <label>Delivery Instructions (optional)</label>
+          <textarea id="notes" placeholder="e.g. Ring the doorbell, leave at door, allergies…"></textarea>
+        </div>
+        <div class="form-group full">
+          <label>Payment Method</label>
+          <select id="payment">
+            <option value="">Select payment method</option>
+            <option value="upi">UPI / GPay / PhonePe</option>
+            <option value="card">Credit / Debit Card</option>
+            <option value="netbanking">Net Banking</option>
+            <option value="cod">Cash on Delivery</option>
+          </select>
+        </div>
       </div>
     </div>
   </div>
 
-</main>
+  <!-- RIGHT: Summary -->
+  <div class="order-summary" id="summaryPanel">
+    <div class="summary-title">Order Summary</div>
+
+    <div class="summary-row">
+      <span>Subtotal (<span id="sumQty">0</span> items)</span>
+      <span>₹<span id="sumSubtotal">0</span></span>
+    </div>
+    <div class="summary-row">
+      <span>Taxes &amp; levies (5%)</span>
+      <span>₹<span id="sumTax">0</span></span>
+    </div>
+    <div class="summary-row">
+      <span>Delivery fee</span>
+      <span id="deliveryFeeCell">₹<span id="sumDelivery">49</span></span>
+    </div>
+    <div class="summary-row savings" id="discountRow" style="display:none">
+      <span>Promo discount</span>
+      <span>−₹<span id="sumDiscount">0</span></span>
+    </div>
+    <div class="summary-row total">
+      <span>Total</span>
+      <span>₹<span id="sumTotal">0</span></span>
+    </div>
+
+    <div class="delivery-badge" id="freeDeliveryBadge" style="display:none">
+      ✓ Free delivery on orders above ₹999!
+    </div>
+    <div class="delivery-badge" style="display:flex">
+      ⚡ Estimated delivery: 25–30 min
+    </div>
+
+    <button class="checkout-btn" onclick="placeOrder()">Place Order →</button>
+    <div class="secure-note">🔒 Secure<span>·</span>Encrypted<span>·</span>No card stored</div>
+  </div>
+
+</div>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">EMBER</div>
-  <div class="footer-copy">© 2026 EMBER Fine Dining · Made with 🔥 in Hyderabad</div>
+  <div>
+    <div class="footer-brand">EMBER</div>
+    <div class="footer-tagline">Fine dining delivered. Made with 🔥 in Hyderabad.</div>
+  </div>
+  <div class="footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Refund Policy</a>
+  </div>
+  <div class="footer-copy">© 2026 EMBER Fine Dining</div>
 </footer>
 
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
-
 <script>
-  // ── State ──
-  const items = {
-    1: { name: 'Ember-Charred Ribeye',      base: 1850, qty: 1, emoji: '🥩' },
-    2: { name: 'Black Truffle Tagliolini',   base: 1280, qty: 2, emoji: '🍝' },
-    3: { name: 'Aged Barolo, 2018',          base:  980, qty: 1, emoji: '🍷' },
-  };
+// ── SAMPLE CART DATA (in real site this comes from localStorage) ──
+const SAMPLE_CART = [
+  { id: 1, emoji: '🥩', name: 'Ember-Charred Ribeye', cat: 'Mains', price: 1850, qty: 1 },
+  { id: 2, emoji: '🍝', name: 'Black Truffle Tagliolini', cat: 'Pasta', price: 1280, qty: 2 },
+  { id: 3, emoji: '🍕', name: 'Wild Mushroom & Burrata Pizza', cat: 'Pizza', price: 890, qty: 1 },
+];
 
-  let nextId = 4;
-  let delivery = true;
-  let promoApplied = false;
+let cart = [];
+let discount = 0;
+const DELIVERY_FEE = 49;
+const FREE_DELIVERY_THRESHOLD = 999;
+const TAX_RATE = 0.05;
 
-  // ── Helpers ──
-  function fmt(n) {
-    return '₹' + n.toLocaleString('en-IN');
+// Load cart from localStorage or use sample
+function loadCart() {
+  try {
+    const saved = localStorage.getItem('emberCart');
+    cart = saved ? JSON.parse(saved) : SAMPLE_CART;
+  } catch(e) {
+    cart = SAMPLE_CART;
+  }
+  renderCart();
+}
+
+function saveCart() {
+  try { localStorage.setItem('emberCart', JSON.stringify(cart)); } catch(e){}
+}
+
+function renderCart() {
+  const list = document.getElementById('cartItemsList');
+  const empty = document.getElementById('emptyCart');
+  const promo = document.getElementById('promoRow');
+  const delivery = document.getElementById('deliveryForm');
+  const summary = document.getElementById('summaryPanel');
+
+  list.innerHTML = '';
+
+  if (cart.length === 0) {
+    empty.style.display = 'block';
+    promo.style.display = 'none';
+    delivery.style.display = 'none';
+    summary.style.opacity = '.4';
+    summary.style.pointerEvents = 'none';
+    document.getElementById('cartSubtitle').textContent = 'Your cart is currently empty';
+    updateSummary();
+    updateNavCount();
+    return;
   }
 
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2400);
-  }
+  empty.style.display = 'none';
+  promo.style.display = 'block';
+  delivery.style.display = 'block';
+  summary.style.opacity = '1';
+  summary.style.pointerEvents = 'auto';
+  document.getElementById('cartSubtitle').textContent =
+    `${cart.reduce((s,i) => s+i.qty, 0)} item${cart.reduce((s,i)=>s+i.qty,0)>1?'s':''} ready to order`;
 
-  function getSubtotal() {
-    return Object.values(items).reduce((s, i) => s + i.base * i.qty, 0);
-  }
-
-  function recalc() {
-    const sub = getSubtotal();
-    const deliveryFee = delivery ? 60 : 0;
-    const gst = Math.round(sub * 0.05);
-    const discount = promoApplied ? Math.round(sub * 0.10) : 0;
-    const total = sub + deliveryFee + gst - discount;
-
-    document.getElementById('subtotal-val').textContent = fmt(sub);
-    document.getElementById('delivery-val').textContent = delivery ? fmt(60) : 'FREE';
-    document.getElementById('gst-val').textContent = fmt(gst);
-    document.getElementById('total-val').textContent = fmt(total);
-
-    if (promoApplied) {
-      document.getElementById('discount-row').style.display = 'flex';
-      document.getElementById('discount-val').textContent = '−' + fmt(discount);
-    } else {
-      document.getElementById('discount-row').style.display = 'none';
-    }
-
-    // item count
-    const count = Object.values(items).reduce((s, i) => s + i.qty, 0);
-    const idCount = Object.keys(items).length;
-    document.getElementById('item-count-label').textContent = count + ' Item' + (count !== 1 ? 's' : '');
-    document.getElementById('nav-count').textContent = count;
-
-    // empty state
-    if (idCount === 0) {
-      document.getElementById('empty-state').style.display = 'block';
-      document.getElementById('special-instructions-box').style.display = 'none';
-      document.getElementById('upsell-section').style.display = 'none';
-      document.querySelector('.checkout-btn').disabled = true;
-      document.querySelector('.checkout-btn').style.opacity = '0.4';
-    } else {
-      document.getElementById('empty-state').style.display = 'none';
-      document.getElementById('special-instructions-box').style.display = 'block';
-      document.getElementById('upsell-section').style.display = 'block';
-      document.querySelector('.checkout-btn').disabled = false;
-      document.querySelector('.checkout-btn').style.opacity = '1';
-    }
-  }
-
-  // ── Actions ──
-  function changeQty(id, delta) {
-    if (!items[id]) return;
-    const newQty = items[id].qty + delta;
-    if (newQty <= 0) { removeItem(id); return; }
-    if (newQty > 10) { showToast('Maximum 10 per item.'); return; }
-    items[id].qty = newQty;
-    document.getElementById('qty-' + id).textContent = newQty;
-    document.getElementById('price-' + id).textContent = fmt(items[id].base * newQty);
-    recalc();
-  }
-
-  function removeItem(id) {
-    const el = document.getElementById('item-' + id);
-    if (!el) return;
-    el.style.transition = 'opacity 0.25s, transform 0.25s';
-    el.style.opacity = '0';
-    el.style.transform = 'translateX(-20px)';
-    setTimeout(() => {
-      el.remove();
-      delete items[id];
-      recalc();
-    }, 250);
-    showToast('Item removed.');
-  }
-
-  function clearCart() {
-    Object.keys(items).forEach(id => {
-      const el = document.getElementById('item-' + id);
-      if (el) el.remove();
-      delete items[id];
-    });
-    recalc();
-    showToast('Cart cleared.');
-  }
-
-  function setDelivery(val) {
-    delivery = val;
-    document.getElementById('toggle-delivery').classList.toggle('active', val);
-    document.getElementById('toggle-pickup').classList.toggle('active', !val);
-    document.getElementById('delivery-row').style.opacity = val ? '1' : '0.5';
-    recalc();
-  }
-
-  function applyPromo() {
-    const code = document.getElementById('promo-input').value.trim().toUpperCase();
-    if (code === 'EMBER10') {
-      promoApplied = true;
-      document.getElementById('promo-success').style.display = 'block';
-      document.getElementById('promo-input').disabled = true;
-      document.querySelector('.promo-apply-btn').disabled = true;
-      document.querySelector('.promo-apply-btn').textContent = '✓';
-      recalc();
-      showToast('Promo code applied! 10% off.');
-    } else {
-      showToast('Invalid promo code. Try EMBER10!');
-    }
-  }
-
-  function addUpsell(name, price, emoji) {
-    // Check if already exists by name
-    const existing = Object.entries(items).find(([, v]) => v.name === name);
-    if (existing) {
-      changeQty(parseInt(existing[0]), 1);
-      showToast(name + ' qty increased.');
-      return;
-    }
-
-    const id = nextId++;
-    items[id] = { name, base: price, qty: 1, emoji };
-
-    const container = document.getElementById('cart-items-container');
-    const el = document.createElement('div');
-    el.className = 'cart-item';
-    el.id = 'item-' + id;
-    el.innerHTML = `
-      <div class="item-emoji">${emoji}</div>
+  cart.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'cart-item';
+    div.style.animationDelay = `${idx * 0.06}s`;
+    div.innerHTML = `
+      <div class="item-emoji">${item.emoji}</div>
       <div class="item-info">
-        <div class="item-badge">Add-on</div>
-        <div class="item-name">${name}</div>
-        <div class="item-desc">A perfect addition to your order.</div>
-      </div>
-      <div class="item-controls">
-        <div class="item-price" id="price-${id}">${fmt(price)}</div>
+        <div class="item-name">${item.name}</div>
+        <div class="item-cat">${item.cat}</div>
         <div class="qty-controls">
-          <button class="qty-btn" onclick="changeQty(${id},-1)">−</button>
-          <div class="qty-display" id="qty-${id}">1</div>
-          <button class="qty-btn" onclick="changeQty(${id},1)">+</button>
+          <button class="qty-btn" onclick="changeQty(${item.id}, -1)">−</button>
+          <div class="qty-val" id="qty-${item.id}">${item.qty}</div>
+          <button class="qty-btn" onclick="changeQty(${item.id}, +1)">+</button>
         </div>
-        <button class="remove-btn" onclick="removeItem(${id})">Remove</button>
+      </div>
+      <div class="item-right">
+        <div class="item-price">₹${(item.price * item.qty).toLocaleString('en-IN')}</div>
+        <button class="remove-btn" onclick="removeItem(${item.id})">Remove</button>
       </div>
     `;
-    container.appendChild(el);
-    recalc();
-    showToast(emoji + ' ' + name + ' added to cart!');
+    list.appendChild(div);
+  });
+
+  updateSummary();
+  updateNavCount();
+}
+
+function changeQty(id, delta) {
+  const item = cart.find(i => i.id === id);
+  if (!item) return;
+  item.qty = Math.max(1, item.qty + delta);
+  saveCart();
+  renderCart();
+}
+
+function removeItem(id) {
+  cart = cart.filter(i => i.id !== id);
+  saveCart();
+  renderCart();
+}
+
+function updateSummary() {
+  const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  const qty = cart.reduce((s, i) => s + i.qty, 0);
+  const tax = Math.round(subtotal * TAX_RATE);
+  const delivery = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : DELIVERY_FEE;
+  const total = subtotal + tax + delivery - discount;
+
+  document.getElementById('sumQty').textContent = qty;
+  document.getElementById('sumSubtotal').textContent = subtotal.toLocaleString('en-IN');
+  document.getElementById('sumTax').textContent = tax.toLocaleString('en-IN');
+  document.getElementById('sumDelivery').textContent = delivery === 0 ? '0 (Free!)' : delivery;
+  document.getElementById('sumTotal').textContent = Math.max(0, total).toLocaleString('en-IN');
+
+  const badge = document.getElementById('freeDeliveryBadge');
+  badge.style.display = subtotal >= FREE_DELIVERY_THRESHOLD ? 'flex' : 'none';
+
+  const discRow = document.getElementById('discountRow');
+  if (discount > 0) {
+    discRow.style.display = 'flex';
+    document.getElementById('sumDiscount').textContent = discount.toLocaleString('en-IN');
+  } else {
+    discRow.style.display = 'none';
+  }
+}
+
+function updateNavCount() {
+  const count = cart.reduce((s, i) => s + i.qty, 0);
+  const el = document.getElementById('navCount');
+  if (el) el.textContent = count;
+}
+
+// Promo codes
+const PROMOS = { 'EMBER10': 10, 'FIRE20': 20, 'FIRSTORDER': 15 };
+function applyPromo() {
+  const code = document.getElementById('promoInput').value.trim().toUpperCase();
+  const msg = document.getElementById('promoMsg');
+  const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+
+  if (!code) { msg.textContent = 'Please enter a code.'; msg.className = 'promo-msg error'; return; }
+  if (PROMOS[code]) {
+    const pct = PROMOS[code];
+    discount = Math.round(subtotal * pct / 100);
+    msg.textContent = `✓ Code applied! ${pct}% off (−₹${discount.toLocaleString('en-IN')})`;
+    msg.className = 'promo-msg success';
+    updateSummary();
+  } else {
+    discount = 0;
+    msg.textContent = 'Invalid promo code. Try EMBER10.';
+    msg.className = 'promo-msg error';
+    updateSummary();
+  }
+}
+
+function placeOrder() {
+  if (cart.length === 0) return;
+  const fname = document.getElementById('fname').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const address = document.getElementById('address').value.trim();
+  const payment = document.getElementById('payment').value;
+
+  if (!fname || !phone || !address || !payment) {
+    alert('Please fill in all required delivery details before placing your order.');
+    return;
   }
 
-  function checkout() {
-    showToast('🔥 Taking you to checkout…');
-    setTimeout(() => {
-      alert('Checkout flow would continue here.\n\nTotal: ' + document.getElementById('total-val').textContent);
-    }, 600);
-  }
+  // Save order summary to localStorage for thank you page
+  const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  const tax = Math.round(subtotal * TAX_RATE);
+  const delivery = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : DELIVERY_FEE;
+  const total = subtotal + tax + delivery - discount;
+  const orderId = 'EMB-' + Date.now().toString(36).toUpperCase();
 
-  // ── Init ──
-  recalc();
+  const order = {
+    id: orderId,
+    items: cart,
+    subtotal, tax, delivery, discount, total,
+    name: fname + ' ' + document.getElementById('lname').value.trim(),
+    phone, address,
+    payment,
+    time: new Date().toLocaleString('en-IN')
+  };
+
+  try { localStorage.setItem('emberLastOrder', JSON.stringify(order)); } catch(e){}
+  try { localStorage.removeItem('emberCart'); } catch(e){}
+
+  window.location.href = 'thankyou.html';
+}
+
+loadCart();
 </script>
 </body>
 </html>
