@@ -19,21 +19,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Thank You — EMBER</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <title>Cart — EMBER</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --char: #0d0a07;
-      --ember-deep: #1a0f06;
-      --ash: #2a1e14;
-      --glow-orange: #e8651a;
-      --glow-amber: #f5a623;
-      --gold: #c9922a;
-      --cream: #f2ead8;
-      --muted: #9e8a74;
-      --white: #faf6f0;
+      --ember-black: #0a0806;
+      --ember-dark: #111009;
+      --ember-card: #16130e;
+      --ember-border: #2a2318;
+      --ember-gold: #c8963e;
+      --ember-gold-light: #e8b86d;
+      --ember-fire: #e05a1a;
+      --ember-cream: #f0e8d8;
+      --ember-muted: #7a6a52;
+      --ember-text: #d4c4a8;
+      --radius: 4px;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -41,455 +43,655 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     html { scroll-behavior: smooth; }
 
     body {
-      background-color: var(--char);
-      color: var(--cream);
+      background: var(--ember-black);
+      color: var(--ember-text);
       font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
       min-height: 100vh;
       overflow-x: hidden;
     }
 
-    /* ─── BACKGROUND FIRE GLOW ─── */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 60% 40% at 50% 100%, rgba(232,101,26,0.18) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 30% at 20% 80%, rgba(245,166,35,0.08) 0%, transparent 60%),
-        radial-gradient(ellipse 40% 30% at 80% 70%, rgba(201,146,42,0.07) 0%, transparent 60%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* ─── NAV ─── */
+    /* ── NAV ── */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
       padding: 0 3rem;
-      height: 70px;
-      background: rgba(13,10,7,0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(201,146,42,0.15);
+      height: 68px;
+      background: rgba(10,8,6,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--ember-border);
     }
 
     .nav-logo {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       font-weight: 600;
+      color: var(--ember-gold);
       letter-spacing: 0.12em;
-      color: var(--gold);
       text-decoration: none;
     }
 
     .nav-links {
-      display: flex;
-      gap: 2rem;
+      display: flex; align-items: center; gap: 2rem;
       list-style: none;
     }
 
     .nav-links a {
       text-decoration: none;
-      font-size: 0.82rem;
-      letter-spacing: 0.08em;
-      color: var(--muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      transition: color 0.25s;
-    }
-
-    .nav-links a:hover { color: var(--cream); }
-
-    .nav-cart {
-      font-size: 0.82rem;
-      color: var(--muted);
-      text-decoration: none;
-      letter-spacing: 0.05em;
-      transition: color 0.25s;
-    }
-    .nav-cart:hover { color: var(--gold); }
-
-    /* ─── MAIN ─── */
-    main {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 100px 2rem 60px;
-      text-align: center;
-    }
-
-    /* ─── FLAME SVG ─── */
-    .flame-wrap {
-      width: 80px;
-      height: 100px;
-      margin: 0 auto 2.5rem;
-      animation: float 3s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-
-    .flame-wrap svg { width: 100%; height: 100%; }
-
-    /* ─── TICK CIRCLE ─── */
-    .tick-ring {
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
-      border: 2px solid var(--gold);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 2rem;
-      animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-      box-shadow: 0 0 30px rgba(201,146,42,0.25), inset 0 0 20px rgba(201,146,42,0.05);
-    }
-
-    @keyframes popIn {
-      from { transform: scale(0); opacity: 0; }
-      to   { transform: scale(1); opacity: 1; }
-    }
-
-    .tick-ring svg {
-      width: 34px;
-      height: 34px;
-      stroke: var(--gold);
-      stroke-width: 2.5;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      fill: none;
-    }
-
-    .tick-path {
-      stroke-dasharray: 40;
-      stroke-dashoffset: 40;
-      animation: drawCheck 0.5s 0.5s ease forwards;
-    }
-
-    @keyframes drawCheck {
-      to { stroke-dashoffset: 0; }
-    }
-
-    /* ─── HEADLINE BLOCK ─── */
-    .eyebrow {
-      font-size: 0.72rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--glow-orange);
-      margin-bottom: 1rem;
-      animation: fadeUp 0.7s 0.2s ease both;
-    }
-
-    h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.8rem, 7vw, 5rem);
-      font-weight: 300;
-      line-height: 1.05;
-      color: var(--white);
-      letter-spacing: -0.01em;
-      margin-bottom: 0.4rem;
-      animation: fadeUp 0.7s 0.35s ease both;
-    }
-
-    h1 em {
-      font-style: italic;
-      color: var(--gold);
-    }
-
-    .subtitle {
-      font-size: 1.05rem;
-      font-weight: 300;
-      color: var(--muted);
-      margin-bottom: 3rem;
-      animation: fadeUp 0.7s 0.5s ease both;
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(18px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ─── ORDER CARD ─── */
-    .order-card {
-      background: linear-gradient(135deg, rgba(42,30,20,0.9) 0%, rgba(26,15,6,0.95) 100%);
-      border: 1px solid rgba(201,146,42,0.2);
-      border-radius: 16px;
-      padding: 2.5rem 3rem;
-      max-width: 540px;
-      width: 100%;
-      margin: 0 auto 2.5rem;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.03);
-      animation: fadeUp 0.7s 0.65s ease both;
-    }
-
-    .order-id-label {
-      font-size: 0.68rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 0.4rem;
-    }
-
-    .order-id {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.6rem;
-      font-weight: 600;
-      color: var(--gold);
-      letter-spacing: 0.08em;
-      margin-bottom: 2rem;
-    }
-
-    .divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(201,146,42,0.3), transparent);
-      margin-bottom: 2rem;
-    }
-
-    .info-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-      text-align: left;
-    }
-
-    .info-item label {
-      display: block;
-      font-size: 0.67rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 0.35rem;
-    }
-
-    .info-item span {
-      font-size: 0.95rem;
-      color: var(--cream);
-    }
-
-    .info-item span.highlight {
-      color: var(--glow-amber);
-      font-weight: 500;
-    }
-
-    /* ─── STEPS TRACKER ─── */
-    .steps {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0;
-      margin-bottom: 3rem;
-      animation: fadeUp 0.7s 0.8s ease both;
-    }
-
-    .step {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .step-dot {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.75rem;
-      font-weight: 500;
-      position: relative;
-      z-index: 1;
-    }
-
-    .step-dot.done {
-      background: var(--gold);
-      color: var(--char);
-    }
-
-    .step-dot.active {
-      background: rgba(232,101,26,0.2);
-      border: 2px solid var(--glow-orange);
-      color: var(--glow-orange);
-      box-shadow: 0 0 20px rgba(232,101,26,0.3);
-    }
-
-    .step-dot.pending {
-      background: rgba(255,255,255,0.04);
-      border: 2px solid rgba(255,255,255,0.1);
-      color: var(--muted);
-    }
-
-    .step-label {
-      font-size: 0.67rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .step-label.done-label { color: var(--gold); }
-    .step-label.active-label { color: var(--glow-orange); }
-
-    .step-line {
-      width: 60px;
-      height: 1px;
-      margin-bottom: 1.3rem;
-    }
-
-    .step-line.done-line { background: var(--gold); }
-    .step-line.pending-line { background: rgba(255,255,255,0.08); }
-
-    /* ─── MESSAGE ─── */
-    .message-box {
-      max-width: 440px;
-      margin: 0 auto 3rem;
-      animation: fadeUp 0.7s 0.9s ease both;
-    }
-
-    .message-box p {
-      font-size: 0.95rem;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    .message-box p strong {
-      color: var(--cream);
-      font-weight: 500;
-    }
-
-    /* ─── ACTIONS ─── */
-    .actions {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      animation: fadeUp 0.7s 1s ease both;
-    }
-
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.85rem 2.2rem;
-      background: linear-gradient(135deg, var(--glow-orange), var(--gold));
-      color: #fff;
-      text-decoration: none;
-      border-radius: 50px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      transition: all 0.3s;
-      box-shadow: 0 8px 30px rgba(232,101,26,0.35);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 14px 40px rgba(232,101,26,0.45);
-    }
-
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.85rem 2rem;
-      background: transparent;
-      color: var(--muted);
-      text-decoration: none;
-      border-radius: 50px;
-      border: 1px solid rgba(201,146,42,0.25);
-      font-size: 0.85rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      transition: all 0.3s;
-    }
-
-    .btn-secondary:hover {
-      border-color: var(--gold);
-      color: var(--gold);
-      background: rgba(201,146,42,0.06);
-    }
-
-    /* ─── FOOTER ─── */
-    footer {
-      position: relative;
-      z-index: 1;
-      background: rgba(13,10,7,0.9);
-      border-top: 1px solid rgba(201,146,42,0.1);
-      padding: 3rem;
-    }
-
-    .footer-inner {
-      max-width: 960px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1.4fr 1fr 1fr;
-      gap: 3rem;
-    }
-
-    .footer-brand .logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.4rem;
-      font-weight: 600;
-      color: var(--gold);
-      letter-spacing: 0.12em;
-      margin-bottom: 0.75rem;
-      display: block;
-    }
-
-    .footer-brand p {
-      font-size: 0.82rem;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    .footer-col h4 {
-      font-size: 0.68rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1rem;
-    }
-
-    .footer-col a {
-      display: block;
-      font-size: 0.82rem;
-      color: var(--muted);
-      text-decoration: none;
-      margin-bottom: 0.55rem;
+      color: var(--ember-muted);
       transition: color 0.2s;
     }
+    .nav-links a:hover { color: var(--ember-cream); }
 
-    .footer-col a:hover { color: var(--cream); }
+    .nav-cart-btn {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.45rem 1.1rem;
+      border: 1px solid var(--ember-gold);
+      border-radius: 2px;
+      color: var(--ember-gold) !important;
+      font-size: 0.78rem !important;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s !important;
+    }
+    .nav-cart-btn:hover {
+      background: var(--ember-gold) !important;
+      color: var(--ember-black) !important;
+    }
 
-    .footer-bottom {
-      max-width: 960px;
-      margin: 2rem auto 0;
-      padding-top: 1.5rem;
-      border-top: 1px solid rgba(255,255,255,0.05);
+    /* ── PAGE HEADER ── */
+    .page-header {
+      position: relative;
+      padding: 5rem 3rem 3rem;
+      border-bottom: 1px solid var(--ember-border);
+      overflow: hidden;
+    }
+
+    .page-header::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse 60% 80% at 10% 50%, rgba(200,150,62,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .breadcrumb {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ember-muted);
+      margin-bottom: 1.2rem;
+    }
+    .breadcrumb a { color: var(--ember-muted); text-decoration: none; }
+    .breadcrumb span { color: var(--ember-gold); }
+
+    .page-header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      font-weight: 300;
+      color: var(--ember-cream);
+      line-height: 1;
+      letter-spacing: 0.02em;
+    }
+
+    .page-header h1 em {
+      font-style: italic;
+      color: var(--ember-gold);
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .cart-layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 2px;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem 3rem 6rem;
+      align-items: start;
+    }
+
+    /* ── CART ITEMS ── */
+    .cart-items-section {}
+
+    .section-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ember-muted);
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--ember-border);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 0.75rem;
-      color: var(--muted);
     }
 
-    /* ─── RESPONSIVE ─── */
-    @media (max-width: 700px) {
-      nav { padding: 0 1.2rem; }
+    .clear-btn {
+      background: none; border: none; cursor: pointer;
+      color: var(--ember-muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .clear-btn:hover { color: var(--ember-fire); }
+
+    /* ── CART ITEM CARD ── */
+    .cart-item {
+      display: grid;
+      grid-template-columns: 56px 1fr auto;
+      gap: 1.2rem;
+      align-items: center;
+      padding: 1.4rem 1.6rem;
+      background: var(--ember-card);
+      border: 1px solid var(--ember-border);
+      margin-bottom: 2px;
+      transition: border-color 0.2s;
+      animation: slideIn 0.35s ease both;
+    }
+
+    .cart-item:first-child { border-top-left-radius: var(--radius); border-top-right-radius: var(--radius); }
+    .cart-item:last-child { border-bottom-left-radius: var(--radius); border-bottom-right-radius: var(--radius); }
+
+    .cart-item:hover { border-color: var(--ember-gold); }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .item-emoji {
+      width: 56px; height: 56px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem;
+      background: var(--ember-dark);
+      border-radius: var(--radius);
+      border: 1px solid var(--ember-border);
+      flex-shrink: 0;
+    }
+
+    .item-info {}
+    .item-badge {
+      display: inline-block;
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ember-gold);
+      margin-bottom: 0.3rem;
+    }
+
+    .item-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 400;
+      color: var(--ember-cream);
+      line-height: 1.2;
+      margin-bottom: 0.2rem;
+    }
+
+    .item-desc {
+      font-size: 0.75rem;
+      color: var(--ember-muted);
+      line-height: 1.5;
+      max-width: 340px;
+    }
+
+    .item-controls {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.8rem;
+    }
+
+    .item-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--ember-gold);
+    }
+
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border: 1px solid var(--ember-border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .qty-btn {
+      width: 32px; height: 32px;
+      background: var(--ember-dark);
+      border: none;
+      color: var(--ember-muted);
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .qty-btn:hover { background: var(--ember-gold); color: var(--ember-black); }
+
+    .qty-display {
+      width: 36px; height: 32px;
+      background: var(--ember-card);
+      color: var(--ember-cream);
+      font-size: 0.85rem;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 500;
+      border-left: 1px solid var(--ember-border);
+      border-right: 1px solid var(--ember-border);
+    }
+
+    .remove-btn {
+      background: none; border: none; cursor: pointer;
+      color: var(--ember-border);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .remove-btn:hover { color: var(--ember-fire); }
+
+    /* ── SPECIAL INSTRUCTIONS ── */
+    .special-instructions {
+      margin-top: 2rem;
+      padding: 1.4rem 1.6rem;
+      background: var(--ember-card);
+      border: 1px solid var(--ember-border);
+      border-radius: var(--radius);
+    }
+
+    .special-instructions label {
+      display: block;
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ember-muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .special-instructions textarea {
+      width: 100%;
+      height: 80px;
+      background: var(--ember-dark);
+      border: 1px solid var(--ember-border);
+      border-radius: 2px;
+      color: var(--ember-cream);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      padding: 0.75rem 1rem;
+      resize: none;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .special-instructions textarea::placeholder { color: var(--ember-muted); }
+    .special-instructions textarea:focus { border-color: var(--ember-gold); }
+
+    /* ── ORDER SUMMARY ── */
+    .order-summary {
+      position: sticky;
+      top: 88px;
+      background: var(--ember-card);
+      border: 1px solid var(--ember-border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .summary-header {
+      padding: 1.4rem 1.6rem;
+      border-bottom: 1px solid var(--ember-border);
+      background: var(--ember-dark);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .summary-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--ember-cream);
+      letter-spacing: 0.05em;
+    }
+
+    .summary-fire { font-size: 1.1rem; }
+
+    .summary-body { padding: 1.6rem; }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.9rem;
+      font-size: 0.82rem;
+    }
+
+    .summary-row .label { color: var(--ember-muted); }
+    .summary-row .value { color: var(--ember-cream); font-weight: 500; }
+    .summary-row .value.green { color: #6abf7b; }
+
+    .summary-divider {
+      height: 1px;
+      background: var(--ember-border);
+      margin: 1.2rem 0;
+    }
+
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.4rem;
+    }
+
+    .summary-total .total-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ember-muted);
+    }
+
+    .summary-total .total-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--ember-gold);
+    }
+
+    .gst-note {
+      font-size: 0.68rem;
+      color: var(--ember-muted);
+      text-align: right;
+      margin-bottom: 1.6rem;
+    }
+
+    /* ── DELIVERY TOGGLE ── */
+    .delivery-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      margin-bottom: 1.4rem;
+    }
+
+    .toggle-opt {
+      padding: 0.7rem;
+      text-align: center;
+      background: var(--ember-dark);
+      border: 1px solid var(--ember-border);
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ember-muted);
+      user-select: none;
+    }
+
+    .toggle-opt.active {
+      background: rgba(200,150,62,0.12);
+      border-color: var(--ember-gold);
+      color: var(--ember-gold);
+    }
+
+    /* ── PROMO ── */
+    .promo-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 1.4rem;
+    }
+
+    .promo-input {
+      flex: 1;
+      background: var(--ember-dark);
+      border: 1px solid var(--ember-border);
+      border-radius: 2px;
+      color: var(--ember-cream);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      padding: 0.6rem 0.9rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .promo-input::placeholder { color: var(--ember-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+    .promo-input:focus { border-color: var(--ember-gold); }
+
+    .promo-apply-btn {
+      padding: 0.6rem 1rem;
+      background: none;
+      border: 1px solid var(--ember-border);
+      border-radius: 2px;
+      color: var(--ember-muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .promo-apply-btn:hover {
+      border-color: var(--ember-gold);
+      color: var(--ember-gold);
+    }
+
+    /* ── CTA BUTTON ── */
+    .checkout-btn {
+      width: 100%;
+      padding: 1rem;
+      background: var(--ember-gold);
+      border: none;
+      border-radius: 2px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ember-black);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+    }
+    .checkout-btn:hover { background: var(--ember-gold-light); }
+    .checkout-btn:active { transform: scale(0.99); }
+
+    .continue-link {
+      display: block;
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ember-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .continue-link:hover { color: var(--ember-cream); }
+
+    /* ── TRUST BADGES ── */
+    .trust-badges {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border-top: 1px solid var(--ember-border);
+    }
+
+    .trust-badge {
+      padding: 1rem 0.6rem;
+      text-align: center;
+      border-right: 1px solid var(--ember-border);
+    }
+    .trust-badge:last-child { border-right: none; }
+
+    .trust-badge .icon { font-size: 1.2rem; display: block; margin-bottom: 0.3rem; }
+    .trust-badge .text { font-size: 0.62rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ember-muted); }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      text-align: center;
+      padding: 5rem 2rem;
+      display: none;
+    }
+
+    .empty-flame { font-size: 3.5rem; display: block; margin-bottom: 1.2rem; opacity: 0.4; }
+
+    .empty-state h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 300;
+      color: var(--ember-cream);
+      margin-bottom: 0.5rem;
+    }
+    .empty-state p { color: var(--ember-muted); font-size: 0.85rem; margin-bottom: 1.8rem; }
+
+    .browse-menu-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.8rem 2rem;
+      border: 1px solid var(--ember-gold);
+      border-radius: 2px;
+      color: var(--ember-gold);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .browse-menu-btn:hover { background: var(--ember-gold); color: var(--ember-black); }
+
+    /* ── UPSELL ── */
+    .upsell-section {
+      margin-top: 2rem;
+    }
+
+    .upsell-section .section-label { margin-bottom: 1rem; }
+
+    .upsell-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+
+    .upsell-card {
+      padding: 1rem;
+      background: var(--ember-card);
+      border: 1px solid var(--ember-border);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      transition: border-color 0.2s;
+      cursor: pointer;
+    }
+    .upsell-card:hover { border-color: var(--ember-gold); }
+
+    .upsell-emoji { font-size: 1.6rem; flex-shrink: 0; }
+
+    .upsell-info {}
+    .upsell-name {
+      font-size: 0.82rem;
+      color: var(--ember-cream);
+      font-weight: 500;
+      margin-bottom: 0.1rem;
+    }
+    .upsell-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      color: var(--ember-gold);
+    }
+
+    .upsell-add {
+      margin-left: auto;
+      width: 28px; height: 28px;
+      border: 1px solid var(--ember-border);
+      border-radius: 2px;
+      background: none;
+      color: var(--ember-muted);
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      flex-shrink: 0;
+    }
+    .upsell-add:hover { background: var(--ember-gold); color: var(--ember-black); border-color: var(--ember-gold); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--ember-border);
+      padding: 2.5rem 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--ember-gold);
+      letter-spacing: 0.1em;
+    }
+
+    .footer-copy {
+      font-size: 0.72rem;
+      color: var(--ember-muted);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 2rem; right: 2rem;
+      background: var(--ember-card);
+      border: 1px solid var(--ember-gold);
+      border-radius: var(--radius);
+      padding: 0.8rem 1.4rem;
+      color: var(--ember-cream);
+      font-size: 0.82rem;
+      z-index: 200;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: transform 0.3s, opacity 0.3s;
+      pointer-events: none;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 0 1.5rem; }
       .nav-links { display: none; }
-      .order-card { padding: 2rem 1.5rem; }
-      .info-grid { grid-template-columns: 1fr; }
-      .step-line { width: 36px; }
-      .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
-      .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+
+      .page-header { padding: 3rem 1.5rem 2rem; }
+
+      .cart-layout {
+        grid-template-columns: 1fr;
+        padding: 1.5rem 1.5rem 4rem;
+      }
+
+      .order-summary { position: static; }
+
+      .upsell-grid { grid-template-columns: 1fr; }
+
+      footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+
+    /* ── PROMO SUCCESS ── */
+    .promo-success {
+      font-size: 0.72rem;
+      color: #6abf7b;
+      letter-spacing: 0.06em;
+      margin-top: 0.4rem;
+      display: none;
     }
   </style>
 </head>
@@ -499,132 +701,416 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-  <!-- NAV -->
-  <nav>
-    <a href="https://potnurudeekshita860-bot.github.io/new-restaurant/index.html" class="nav-logo">EMBER</a>
-    <ul class="nav-links">
-      <li><a href="https://potnurudeekshita860-bot.github.io/new-restaurant/index.html">Home</a></li>
-      <li><a href="https://potnurudeekshita860-bot.github.io/new-restaurant/menu.html">Menu</a></li>
-      <li><a href="https://potnurudeekshita860-bot.github.io/new-restaurant/about.html">About</a></li>
-      <li><a href="https://potnurudeekshita860-bot.github.io/new-restaurant/reservations.html">Reserve</a></li>
-      <li><a href="https://potnurudeekshita860-bot.github.io/new-restaurant/contact.html">Contact</a></li>
-    </ul>
-    <a href="https://potnurudeekshita860-bot.github.io/new-restaurant/cart.html" class="nav-cart">🛒 Cart 0</a>
-  </nav>
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="https://potnurudeekshita860-bot.github.io/new-restaurant/index.html">EMBER</a>
+  <ul class="nav-links">
+    <li><a href="https://potnurudeekshita860-bot.github.io/new-restaurant/index.html">Home</a></li>
+    <li><a href="https://potnurudeekshita860-bot.github.io/new-restaurant/menu.html">Menu</a></li>
+    <li><a href="https://potnurudeekshita860-bot.github.io/new-restaurant/about.html">About</a></li>
+    <li><a href="https://potnurudeekshita860-bot.github.io/new-restaurant/reservations.html">Reserve</a></li>
+    <li><a href="https://potnurudeekshita860-bot.github.io/new-restaurant/contact.html">Contact</a></li>
+    <li><a class="nav-cart-btn" href="cart.html">🛒 Cart <span id="nav-count">3</span></a></li>
+  </ul>
+</nav>
 
-  <!-- MAIN -->
-  <main>
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="breadcrumb">
+    <a href="https://potnurudeekshita860-bot.github.io/new-restaurant/index.html">Home</a>
+    &nbsp;/&nbsp;
+    <a href="https://potnurudeekshita860-bot.github.io/new-restaurant/menu.html">Menu</a>
+    &nbsp;/&nbsp;
+    <span>Your Cart</span>
+  </div>
+  <h1>Your <em>Order</em></h1>
+</div>
 
-    <!-- Tick ring -->
-    <div class="tick-ring">
-      <svg viewBox="0 0 34 34">
-        <polyline class="tick-path" points="6,17 13,24 28,9"/>
-      </svg>
+<!-- MAIN -->
+<main class="cart-layout" id="main-layout">
+
+  <!-- LEFT: ITEMS -->
+  <div class="cart-items-section">
+
+    <div class="section-label">
+      <span id="item-count-label">3 Items</span>
+      <button class="clear-btn" onclick="clearCart()">Clear all</button>
     </div>
 
-    <p class="eyebrow">Order Confirmed</p>
-    <h1>Thank You for<br><em>Dining with Us</em></h1>
-    <p class="subtitle">Your order is in the hands of our kitchen team.</p>
+    <div id="cart-items-container">
 
-    <!-- Order summary card -->
-    <div class="order-card">
-      <p class="order-id-label">Order Reference</p>
-      <p class="order-id" id="orderRef">EMB-000000</p>
-      <div class="divider"></div>
-      <div class="info-grid">
-        <div class="info-item">
-          <label>Estimated Delivery</label>
-          <span class="highlight">28–35 minutes</span>
+      <div class="cart-item" id="item-1" style="animation-delay:0s">
+        <div class="item-emoji">🥩</div>
+        <div class="item-info">
+          <div class="item-badge">⭐ Signature · Mains</div>
+          <div class="item-name">Ember-Charred Ribeye</div>
+          <div class="item-desc">28-day dry-aged prime cut, finished over open flame with truffle pomme purée, bone marrow jus.</div>
         </div>
-        <div class="info-item">
-          <label>Status</label>
-          <span class="highlight">Being Prepared 🔥</span>
-        </div>
-        <div class="info-item">
-          <label>Confirmation</label>
-          <span>SMS sent to your number</span>
-        </div>
-        <div class="info-item">
-          <label>Payment</label>
-          <span>Confirmed</span>
+        <div class="item-controls">
+          <div class="item-price" id="price-1">₹1,850</div>
+          <div class="qty-controls">
+            <button class="qty-btn" onclick="changeQty(1,-1)">−</button>
+            <div class="qty-display" id="qty-1">1</div>
+            <button class="qty-btn" onclick="changeQty(1,1)">+</button>
+          </div>
+          <button class="remove-btn" onclick="removeItem(1)">Remove</button>
         </div>
       </div>
+
+      <div class="cart-item" id="item-2" style="animation-delay:0.06s">
+        <div class="item-emoji">🍝</div>
+        <div class="item-info">
+          <div class="item-badge">🔥 Fan Favourite · Pasta</div>
+          <div class="item-name">Black Truffle Tagliolini</div>
+          <div class="item-desc">Hand-rolled egg pasta, freshly shaved Périgord truffle, 24-month aged Parmigiano Reggiano.</div>
+        </div>
+        <div class="item-controls">
+          <div class="item-price" id="price-2">₹2,560</div>
+          <div class="qty-controls">
+            <button class="qty-btn" onclick="changeQty(2,-1)">−</button>
+            <div class="qty-display" id="qty-2">2</div>
+            <button class="qty-btn" onclick="changeQty(2,1)">+</button>
+          </div>
+          <button class="remove-btn" onclick="removeItem(2)">Remove</button>
+        </div>
+      </div>
+
+      <div class="cart-item" id="item-3" style="animation-delay:0.12s">
+        <div class="item-emoji">🍷</div>
+        <div class="item-info">
+          <div class="item-badge">🍷 Drinks</div>
+          <div class="item-name">Aged Barolo, 2018</div>
+          <div class="item-desc">Full-bodied Nebbiolo from Piedmont with notes of dried roses, tar, and tobacco. Perfectly aged.</div>
+        </div>
+        <div class="item-controls">
+          <div class="item-price" id="price-3">₹980</div>
+          <div class="qty-controls">
+            <button class="qty-btn" onclick="changeQty(3,-1)">−</button>
+            <div class="qty-display" id="qty-3">1</div>
+            <button class="qty-btn" onclick="changeQty(3,1)">+</button>
+          </div>
+          <button class="remove-btn" onclick="removeItem(3)">Remove</button>
+        </div>
+      </div>
+
     </div>
 
-    <!-- Progress tracker -->
-    <div class="steps">
-      <div class="step">
-        <div class="step-dot done">✓</div>
-        <span class="step-label done-label">Placed</span>
+    <!-- EMPTY STATE -->
+    <div class="empty-state" id="empty-state">
+      <span class="empty-flame">🔥</span>
+      <h3>Your cart is cold</h3>
+      <p>Add some dishes to get the fire going again.</p>
+      <a href="https://potnurudeekshita860-bot.github.io/new-restaurant/menu.html" class="browse-menu-btn">Browse Menu →</a>
+    </div>
+
+    <!-- SPECIAL INSTRUCTIONS -->
+    <div class="special-instructions" id="special-instructions-box">
+      <label>Special Instructions</label>
+      <textarea placeholder="Allergies, preferences, or any special requests for the kitchen..."></textarea>
+    </div>
+
+    <!-- UPSELL -->
+    <div class="upsell-section" id="upsell-section">
+      <div class="section-label">
+        <span>You might also enjoy</span>
       </div>
-      <div class="step-line done-line"></div>
-      <div class="step">
-        <div class="step-dot active">🔥</div>
-        <span class="step-label active-label">Preparing</span>
-      </div>
-      <div class="step-line pending-line"></div>
-      <div class="step">
-        <div class="step-dot pending">🛵</div>
-        <span class="step-label">On the Way</span>
-      </div>
-      <div class="step-line pending-line"></div>
-      <div class="step">
-        <div class="step-dot pending">🏠</div>
-        <span class="step-label">Delivered</span>
+      <div class="upsell-grid">
+        <div class="upsell-card">
+          <div class="upsell-emoji">🍞</div>
+          <div class="upsell-info">
+            <div class="upsell-name">Ember Bread & Whipped Butter</div>
+            <div class="upsell-price">₹320</div>
+          </div>
+          <button class="upsell-add" onclick="addUpsell('Ember Bread & Whipped Butter', 320, '🍞')">+</button>
+        </div>
+        <div class="upsell-card">
+          <div class="upsell-emoji">🍰</div>
+          <div class="upsell-info">
+            <div class="upsell-name">Burnt Basque Cheesecake</div>
+            <div class="upsell-price">₹480</div>
+          </div>
+          <button class="upsell-add" onclick="addUpsell('Burnt Basque Cheesecake', 480, '🍰')">+</button>
+        </div>
+        <div class="upsell-card">
+          <div class="upsell-emoji">🥗</div>
+          <div class="upsell-info">
+            <div class="upsell-name">Charred Caesar Salad</div>
+            <div class="upsell-price">₹560</div>
+          </div>
+          <button class="upsell-add" onclick="addUpsell('Charred Caesar Salad', 560, '🥗')">+</button>
+        </div>
+        <div class="upsell-card">
+          <div class="upsell-emoji">🍨</div>
+          <div class="upsell-info">
+            <div class="upsell-name">Smoked Vanilla Ice Cream</div>
+            <div class="upsell-price">₹280</div>
+          </div>
+          <button class="upsell-add" onclick="addUpsell('Smoked Vanilla Ice Cream', 280, '🍨')">+</button>
+        </div>
       </div>
     </div>
 
-    <!-- Message -->
-    <div class="message-box">
-      <p>Every dish is prepared with <strong>open-flame precision</strong> by our Michelin-trained chefs. Sit back — your exceptional meal is on its way.</p>
+  </div><!-- end cart-items-section -->
+
+
+  <!-- RIGHT: ORDER SUMMARY -->
+  <div class="order-summary">
+    <div class="summary-header">
+      <h2>Order Summary</h2>
+      <span class="summary-fire">🔥</span>
     </div>
 
-    <!-- Actions -->
-    <div class="actions">
-      <a href="https://potnurudeekshita860-bot.github.io/new-restaurant/menu.html" class="btn-primary">
-        🍽 Explore Menu Again
-      </a>
-      <a href="https://potnurudeekshita860-bot.github.io/new-restaurant/index.html" class="btn-secondary">
-        ← Back to Home
-      </a>
-    </div>
+    <div class="summary-body">
 
-  </main>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <span class="logo">EMBER</span>
-        <p>Fine dining delivered. Where every meal is an occasion worth remembering. Hyderabad's favourite open-flame kitchen.</p>
+      <!-- Delivery / Pickup Toggle -->
+      <div class="delivery-toggle">
+        <div class="toggle-opt active" id="toggle-delivery" onclick="setDelivery(true)">🛵 Delivery</div>
+        <div class="toggle-opt" id="toggle-pickup" onclick="setDelivery(false)">🏃 Pickup</div>
       </div>
-      <div class="footer-col">
-        <h4>Navigate</h4>
-        <a href="https://potnurudeekshita860-bot.github.io/new-restaurant/index.html">Home</a>
-        <a href="https://potnurudeekshita860-bot.github.io/new-restaurant/menu.html">Menu</a>
-        <a href="https://potnurudeekshita860-bot.github.io/new-restaurant/about.html">About</a>
-        <a href="https://potnurudeekshita860-bot.github.io/new-restaurant/reservations.html">Reserve</a>
-        <a href="https://potnurudeekshita860-bot.github.io/new-restaurant/contact.html">Contact</a>
+
+      <!-- Rows -->
+      <div class="summary-row">
+        <span class="label">Subtotal</span>
+        <span class="value" id="subtotal-val">₹5,390</span>
       </div>
-      <div class="footer-col">
-        <h4>Info</h4>
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Use</a>
-        <a href="#">Refund Policy</a>
-        <a href="#">Careers</a>
+      <div class="summary-row" id="delivery-row">
+        <span class="label">Delivery fee</span>
+        <span class="value" id="delivery-val">₹60</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">GST (5%)</span>
+        <span class="value" id="gst-val">₹270</span>
+      </div>
+      <div class="summary-row" id="discount-row" style="display:none">
+        <span class="label">Promo discount</span>
+        <span class="value green" id="discount-val">−₹0</span>
+      </div>
+
+      <div class="summary-divider"></div>
+
+      <div class="summary-total">
+        <span class="total-label">Total</span>
+        <span class="total-value" id="total-val">₹5,720</span>
+      </div>
+      <div class="gst-note">Inclusive of all taxes</div>
+
+      <!-- Promo -->
+      <div class="promo-row">
+        <input type="text" class="promo-input" id="promo-input" placeholder="Promo code" maxlength="20"/>
+        <button class="promo-apply-btn" onclick="applyPromo()">Apply</button>
+      </div>
+      <div class="promo-success" id="promo-success">🎉 EMBER10 applied — 10% off!</div>
+
+      <!-- CTA -->
+      <button class="checkout-btn" onclick="checkout()">
+        Proceed to Checkout →
+      </button>
+      <a href="https://potnurudeekshita860-bot.github.io/new-restaurant/menu.html" class="continue-link">← Continue browsing menu</a>
+
+    </div><!-- end summary-body -->
+
+    <div class="trust-badges">
+      <div class="trust-badge">
+        <span class="icon">⚡</span>
+        <span class="text">30-min<br>delivery</span>
+      </div>
+      <div class="trust-badge">
+        <span class="icon">🔒</span>
+        <span class="text">Secure<br>payment</span>
+      </div>
+      <div class="trust-badge">
+        <span class="icon">🌿</span>
+        <span class="text">Farm<br>fresh</span>
       </div>
     </div>
-    <div class="footer-bottom">
-      <span>© 2026 EMBER Fine Dining · All rights reserved</span>
-      <span>Made with 🔥 in Hyderabad</span>
-    </div>
-  </footer>
+  </div>
 
-  <script>
-    // Generate a random order ref on load (mirrors the existing site behaviour)
-    const ref = 'EMB-' + Math.random().toString(36).toUpperCase().slice(2, 8);
-    document.getElementById('orderRef').textContent = ref;
-  </script>
+</main>
 
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">EMBER</div>
+  <div class="footer-copy">© 2026 EMBER Fine Dining · Made with 🔥 in Hyderabad</div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // ── State ──
+  const items = {
+    1: { name: 'Ember-Charred Ribeye',      base: 1850, qty: 1, emoji: '🥩' },
+    2: { name: 'Black Truffle Tagliolini',   base: 1280, qty: 2, emoji: '🍝' },
+    3: { name: 'Aged Barolo, 2018',          base:  980, qty: 1, emoji: '🍷' },
+  };
+
+  let nextId = 4;
+  let delivery = true;
+  let promoApplied = false;
+
+  // ── Helpers ──
+  function fmt(n) {
+    return '₹' + n.toLocaleString('en-IN');
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2400);
+  }
+
+  function getSubtotal() {
+    return Object.values(items).reduce((s, i) => s + i.base * i.qty, 0);
+  }
+
+  function recalc() {
+    const sub = getSubtotal();
+    const deliveryFee = delivery ? 60 : 0;
+    const gst = Math.round(sub * 0.05);
+    const discount = promoApplied ? Math.round(sub * 0.10) : 0;
+    const total = sub + deliveryFee + gst - discount;
+
+    document.getElementById('subtotal-val').textContent = fmt(sub);
+    document.getElementById('delivery-val').textContent = delivery ? fmt(60) : 'FREE';
+    document.getElementById('gst-val').textContent = fmt(gst);
+    document.getElementById('total-val').textContent = fmt(total);
+
+    if (promoApplied) {
+      document.getElementById('discount-row').style.display = 'flex';
+      document.getElementById('discount-val').textContent = '−' + fmt(discount);
+    } else {
+      document.getElementById('discount-row').style.display = 'none';
+    }
+
+    // item count
+    const count = Object.values(items).reduce((s, i) => s + i.qty, 0);
+    const idCount = Object.keys(items).length;
+    document.getElementById('item-count-label').textContent = count + ' Item' + (count !== 1 ? 's' : '');
+    document.getElementById('nav-count').textContent = count;
+
+    // empty state
+    if (idCount === 0) {
+      document.getElementById('empty-state').style.display = 'block';
+      document.getElementById('special-instructions-box').style.display = 'none';
+      document.getElementById('upsell-section').style.display = 'none';
+      document.querySelector('.checkout-btn').disabled = true;
+      document.querySelector('.checkout-btn').style.opacity = '0.4';
+    } else {
+      document.getElementById('empty-state').style.display = 'none';
+      document.getElementById('special-instructions-box').style.display = 'block';
+      document.getElementById('upsell-section').style.display = 'block';
+      document.querySelector('.checkout-btn').disabled = false;
+      document.querySelector('.checkout-btn').style.opacity = '1';
+    }
+  }
+
+  // ── Actions ──
+  function changeQty(id, delta) {
+    if (!items[id]) return;
+    const newQty = items[id].qty + delta;
+    if (newQty <= 0) { removeItem(id); return; }
+    if (newQty > 10) { showToast('Maximum 10 per item.'); return; }
+    items[id].qty = newQty;
+    document.getElementById('qty-' + id).textContent = newQty;
+    document.getElementById('price-' + id).textContent = fmt(items[id].base * newQty);
+    recalc();
+  }
+
+  function removeItem(id) {
+    const el = document.getElementById('item-' + id);
+    if (!el) return;
+    el.style.transition = 'opacity 0.25s, transform 0.25s';
+    el.style.opacity = '0';
+    el.style.transform = 'translateX(-20px)';
+    setTimeout(() => {
+      el.remove();
+      delete items[id];
+      recalc();
+    }, 250);
+    showToast('Item removed.');
+  }
+
+  function clearCart() {
+    Object.keys(items).forEach(id => {
+      const el = document.getElementById('item-' + id);
+      if (el) el.remove();
+      delete items[id];
+    });
+    recalc();
+    showToast('Cart cleared.');
+  }
+
+  function setDelivery(val) {
+    delivery = val;
+    document.getElementById('toggle-delivery').classList.toggle('active', val);
+    document.getElementById('toggle-pickup').classList.toggle('active', !val);
+    document.getElementById('delivery-row').style.opacity = val ? '1' : '0.5';
+    recalc();
+  }
+
+  function applyPromo() {
+    const code = document.getElementById('promo-input').value.trim().toUpperCase();
+    if (code === 'EMBER10') {
+      promoApplied = true;
+      document.getElementById('promo-success').style.display = 'block';
+      document.getElementById('promo-input').disabled = true;
+      document.querySelector('.promo-apply-btn').disabled = true;
+      document.querySelector('.promo-apply-btn').textContent = '✓';
+      recalc();
+      showToast('Promo code applied! 10% off.');
+    } else {
+      showToast('Invalid promo code. Try EMBER10!');
+    }
+  }
+
+  function addUpsell(name, price, emoji) {
+    // Check if already exists by name
+    const existing = Object.entries(items).find(([, v]) => v.name === name);
+    if (existing) {
+      changeQty(parseInt(existing[0]), 1);
+      showToast(name + ' qty increased.');
+      return;
+    }
+
+    const id = nextId++;
+    items[id] = { name, base: price, qty: 1, emoji };
+
+    const container = document.getElementById('cart-items-container');
+    const el = document.createElement('div');
+    el.className = 'cart-item';
+    el.id = 'item-' + id;
+    el.innerHTML = `
+      <div class="item-emoji">${emoji}</div>
+      <div class="item-info">
+        <div class="item-badge">Add-on</div>
+        <div class="item-name">${name}</div>
+        <div class="item-desc">A perfect addition to your order.</div>
+      </div>
+      <div class="item-controls">
+        <div class="item-price" id="price-${id}">${fmt(price)}</div>
+        <div class="qty-controls">
+          <button class="qty-btn" onclick="changeQty(${id},-1)">−</button>
+          <div class="qty-display" id="qty-${id}">1</div>
+          <button class="qty-btn" onclick="changeQty(${id},1)">+</button>
+        </div>
+        <button class="remove-btn" onclick="removeItem(${id})">Remove</button>
+      </div>
+    `;
+    container.appendChild(el);
+    recalc();
+    showToast(emoji + ' ' + name + ' added to cart!');
+  }
+
+  function checkout() {
+    showToast('🔥 Taking you to checkout…');
+    setTimeout(() => {
+      alert('Checkout flow would continue here.\n\nTotal: ' + document.getElementById('total-val').textContent);
+    }, 600);
+  }
+
+  // ── Init ──
+  recalc();
+</script>
 </body>
 </html>
