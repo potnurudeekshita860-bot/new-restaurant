@@ -17,92 +17,481 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-TTHWMVHZ');</script>
 <!-- End Google Tag Manager -->
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Your Cart — EMBER</title>
-<link rel="stylesheet" href="style.css">
-<style>
-.cart-page { padding:48px clamp(16px,4vw,48px) 80px; }
-.cart-page h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,5vw,3.2rem); font-weight:700; margin-bottom:8px; }
-.cart-page > p { color:var(--muted); margin-bottom:40px; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Thank You — EMBER</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --char: #0d0a07;
+      --ember-deep: #1a0f06;
+      --ash: #2a1e14;
+      --glow-orange: #e8651a;
+      --glow-amber: #f5a623;
+      --gold: #c9922a;
+      --cream: #f2ead8;
+      --muted: #9e8a74;
+      --white: #faf6f0;
+    }
 
-.cart-layout { display:grid; grid-template-columns:1fr 380px; gap:32px; align-items:start; }
-@media(max-width:900px){.cart-layout{grid-template-columns:1fr;}}
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ITEMS */
-.cart-list { display:flex; flex-direction:column; gap:16px; }
-.cart-item {
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:var(--radius); padding:22px;
-  display:flex; align-items:center; gap:20px; transition:border-color .2s;
-}
-.cart-item:hover { border-color:rgba(212,130,42,0.3); }
-.item-emoji { font-size:2.6rem; width:68px; height:68px; border-radius:12px; background:var(--surface2); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.item-info { flex:1; }
-.item-name { font-family:'Cormorant Garamond',serif; font-size:1.05rem; font-weight:700; margin-bottom:4px; }
-.item-desc { color:var(--muted); font-size:0.8rem; margin-bottom:8px; }
-.item-price { font-weight:700; color:var(--accent); font-size:1rem; }
-.item-actions { display:flex; align-items:center; gap:16px; }
-.remove-btn { background:none; border:none; color:var(--muted); font-size:1.1rem; cursor:pointer; padding:4px; border-radius:6px; transition:color .2s; }
-.remove-btn:hover { color:var(--red); }
+    html { scroll-behavior: smooth; }
 
-/* SUMMARY */
-.summary-box {
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:16px; padding:32px; position:sticky; top:90px;
-}
-.summary-box h3 { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:700; margin-bottom:24px; }
-.sum-row { display:flex; justify-content:space-between; margin-bottom:14px; font-size:0.9rem; }
-.sum-label { color:var(--muted); }
-.sum-divider { border:none; border-top:1px solid var(--border); margin:16px 0; }
-.sum-total { font-size:1.05rem; font-weight:700; }
+    body {
+      background-color: var(--char);
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-.coupon-row { display:flex; gap:10px; margin:18px 0; }
-.coupon-input {
-  flex:1; padding:10px 14px; border-radius:8px;
-  border:1px solid var(--border); background:var(--surface2);
-  color:var(--text); font-size:0.85rem; outline:none; transition:border-color .2s;
-}
-.coupon-input:focus { border-color:var(--accent); }
-.coupon-btn {
-  padding:10px 14px; background:transparent; color:var(--text);
-  border:1px solid var(--border); border-radius:8px; font-size:0.82rem; font-weight:600;
-  cursor:pointer; transition:all .2s;
-}
-.coupon-btn:hover { border-color:var(--accent); color:var(--accent); }
+    /* ─── BACKGROUND FIRE GLOW ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 50% 100%, rgba(232,101,26,0.18) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 30% at 20% 80%, rgba(245,166,35,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 30% at 80% 70%, rgba(201,146,42,0.07) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
 
-.checkout-btn {
-  width:100%; padding:16px; background:var(--accent); color:#fff;
-  border:none; border-radius:10px; font-size:1rem; font-weight:700;
-  cursor:pointer; margin-top:16px; transition:background .2s; letter-spacing:.3px;
-}
-.checkout-btn:hover { background:var(--accent2); }
-.secure-note { text-align:center; color:var(--dim); font-size:0.75rem; margin-top:12px; }
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 3rem;
+      height: 70px;
+      background: rgba(13,10,7,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,146,42,0.15);
+    }
 
-/* EMPTY */
-.empty-cart { text-align:center; padding:80px 20px; }
-.empty-cart .ico { font-size:4.5rem; margin-bottom:16px; }
-.empty-cart h2 { font-family:'Cormorant Garamond',serif; font-size:1.8rem; margin-bottom:10px; }
-.empty-cart p { color:var(--muted); margin-bottom:28px; }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: var(--gold);
+      text-decoration: none;
+    }
 
-/* SUCCESS MODAL */
-.modal-overlay {
-  position:fixed; inset:0; background:rgba(0,0,0,0.82);
-  backdrop-filter:blur(10px); z-index:2000; display:none;
-  align-items:center; justify-content:center; padding:20px;
-}
-.modal-overlay.open { display:flex; }
-.modal {
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:20px; padding:48px 40px; width:100%; max-width:480px;
-  position:relative; text-align:center; animation:popIn .3s ease;
-}
-@keyframes popIn { from{opacity:0;transform:scale(.94)} to{opacity:1;transform:scale(1)} }
-.modal-close { position:absolute; top:14px; right:16px; background:none; border:none; color:var(--muted); font-size:1.4rem; cursor:pointer; }
-.modal .big-icon { font-size:4.5rem; margin-bottom:16px; }
-.modal h2 { font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:700; margin-bottom:14px; }
-.modal p { color:var(--muted); line-height:1.7; margin-bottom:24px; }
-.order-id { background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:12px; font-family:monospace; letter-spacing:2px; font-size:0.9rem; margin-bottom:24px; }
-</style>
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      text-transform: uppercase;
+      transition: color 0.25s;
+    }
+
+    .nav-links a:hover { color: var(--cream); }
+
+    .nav-cart {
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: color 0.25s;
+    }
+    .nav-cart:hover { color: var(--gold); }
+
+    /* ─── MAIN ─── */
+    main {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 100px 2rem 60px;
+      text-align: center;
+    }
+
+    /* ─── FLAME SVG ─── */
+    .flame-wrap {
+      width: 80px;
+      height: 100px;
+      margin: 0 auto 2.5rem;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .flame-wrap svg { width: 100%; height: 100%; }
+
+    /* ─── TICK CIRCLE ─── */
+    .tick-ring {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      border: 2px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 2rem;
+      animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+      box-shadow: 0 0 30px rgba(201,146,42,0.25), inset 0 0 20px rgba(201,146,42,0.05);
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+
+    .tick-ring svg {
+      width: 34px;
+      height: 34px;
+      stroke: var(--gold);
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
+    .tick-path {
+      stroke-dasharray: 40;
+      stroke-dashoffset: 40;
+      animation: drawCheck 0.5s 0.5s ease forwards;
+    }
+
+    @keyframes drawCheck {
+      to { stroke-dashoffset: 0; }
+    }
+
+    /* ─── HEADLINE BLOCK ─── */
+    .eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--glow-orange);
+      margin-bottom: 1rem;
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 7vw, 5rem);
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--white);
+      letter-spacing: -0.01em;
+      margin-bottom: 0.4rem;
+      animation: fadeUp 0.7s 0.35s ease both;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .subtitle {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--muted);
+      margin-bottom: 3rem;
+      animation: fadeUp 0.7s 0.5s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── ORDER CARD ─── */
+    .order-card {
+      background: linear-gradient(135deg, rgba(42,30,20,0.9) 0%, rgba(26,15,6,0.95) 100%);
+      border: 1px solid rgba(201,146,42,0.2);
+      border-radius: 16px;
+      padding: 2.5rem 3rem;
+      max-width: 540px;
+      width: 100%;
+      margin: 0 auto 2.5rem;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.03);
+      animation: fadeUp 0.7s 0.65s ease both;
+    }
+
+    .order-id-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .order-id {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      margin-bottom: 2rem;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,146,42,0.3), transparent);
+      margin-bottom: 2rem;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      text-align: left;
+    }
+
+    .info-item label {
+      display: block;
+      font-size: 0.67rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.35rem;
+    }
+
+    .info-item span {
+      font-size: 0.95rem;
+      color: var(--cream);
+    }
+
+    .info-item span.highlight {
+      color: var(--glow-amber);
+      font-weight: 500;
+    }
+
+    /* ─── STEPS TRACKER ─── */
+    .steps {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      margin-bottom: 3rem;
+      animation: fadeUp 0.7s 0.8s ease both;
+    }
+
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .step-dot {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-dot.done {
+      background: var(--gold);
+      color: var(--char);
+    }
+
+    .step-dot.active {
+      background: rgba(232,101,26,0.2);
+      border: 2px solid var(--glow-orange);
+      color: var(--glow-orange);
+      box-shadow: 0 0 20px rgba(232,101,26,0.3);
+    }
+
+    .step-dot.pending {
+      background: rgba(255,255,255,0.04);
+      border: 2px solid rgba(255,255,255,0.1);
+      color: var(--muted);
+    }
+
+    .step-label {
+      font-size: 0.67rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .step-label.done-label { color: var(--gold); }
+    .step-label.active-label { color: var(--glow-orange); }
+
+    .step-line {
+      width: 60px;
+      height: 1px;
+      margin-bottom: 1.3rem;
+    }
+
+    .step-line.done-line { background: var(--gold); }
+    .step-line.pending-line { background: rgba(255,255,255,0.08); }
+
+    /* ─── MESSAGE ─── */
+    .message-box {
+      max-width: 440px;
+      margin: 0 auto 3rem;
+      animation: fadeUp 0.7s 0.9s ease both;
+    }
+
+    .message-box p {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .message-box p strong {
+      color: var(--cream);
+      font-weight: 500;
+    }
+
+    /* ─── ACTIONS ─── */
+    .actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeUp 0.7s 1s ease both;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 2.2rem;
+      background: linear-gradient(135deg, var(--glow-orange), var(--gold));
+      color: #fff;
+      text-decoration: none;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: all 0.3s;
+      box-shadow: 0 8px 30px rgba(232,101,26,0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 40px rgba(232,101,26,0.45);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 2rem;
+      background: transparent;
+      color: var(--muted);
+      text-decoration: none;
+      border-radius: 50px;
+      border: 1px solid rgba(201,146,42,0.25);
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: all 0.3s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(201,146,42,0.06);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      position: relative;
+      z-index: 1;
+      background: rgba(13,10,7,0.9);
+      border-top: 1px solid rgba(201,146,42,0.1);
+      padding: 3rem;
+    }
+
+    .footer-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .footer-brand .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 0.12em;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .footer-brand p {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .footer-col h4 {
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .footer-col a {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-decoration: none;
+      margin-bottom: 0.55rem;
+      transition: color 0.2s;
+    }
+
+    .footer-col a:hover { color: var(--cream); }
+
+    .footer-bottom {
+      max-width: 960px;
+      margin: 2rem auto 0;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 700px) {
+      nav { padding: 0 1.2rem; }
+      .nav-links { display: none; }
+      .order-card { padding: 2rem 1.5rem; }
+      .info-grid { grid-template-columns: 1fr; }
+      .step-line { width: 36px; }
+      .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
 </head>
 <body>
   <!-- Google Tag Manager (noscript) -->
@@ -110,149 +499,132 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<nav>
-  <a class="nav-logo" href="index.html">EMBER</a>
-  <div class="nav-center" id="navCenter">
-    <a href="index.html">Home</a><a href="menu.html">Menu</a><a href="about.html">About</a><a href="reservations.html">Reserve</a><a href="contact.html">Contact</a>
-  </div>
-  <div class="nav-right">
-    <a href="cart.html"><button class="btn-cart">🛒 Cart <span class="cart-badge">0</span></button></a>
-    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
-  </div>
-</nav>
+  <!-- NAV -->
+  <nav>
+    <a href="https://potnurudeekshita860-bot.github.io/new-restaurant/index.html" class="nav-logo">EMBER</a>
+    <ul class="nav-links">
+      <li><a href="https://potnurudeekshita860-bot.github.io/new-restaurant/index.html">Home</a></li>
+      <li><a href="https://potnurudeekshita860-bot.github.io/new-restaurant/menu.html">Menu</a></li>
+      <li><a href="https://potnurudeekshita860-bot.github.io/new-restaurant/about.html">About</a></li>
+      <li><a href="https://potnurudeekshita860-bot.github.io/new-restaurant/reservations.html">Reserve</a></li>
+      <li><a href="https://potnurudeekshita860-bot.github.io/new-restaurant/contact.html">Contact</a></li>
+    </ul>
+    <a href="https://potnurudeekshita860-bot.github.io/new-restaurant/cart.html" class="nav-cart">🛒 Cart 0</a>
+  </nav>
 
-<div class="page-body">
-<div class="cart-page">
-  <h1 class="fade-up">Your Cart</h1>
-  <p class="fade-up delay-1">Review your order before checkout</p>
+  <!-- MAIN -->
+  <main>
 
-  <div id="cartContent"></div>
-</div>
+    <!-- Tick ring -->
+    <div class="tick-ring">
+      <svg viewBox="0 0 34 34">
+        <polyline class="tick-path" points="6,17 13,24 28,9"/>
+      </svg>
+    </div>
 
-<footer>
-  <div class="footer-grid">
-    <div class="footer-brand"><span class="footer-brand-logo">EMBER</span><p>Fine dining delivered. Where every meal is an occasion worth remembering.</p></div>
-    <div class="footer-col"><h5>Navigate</h5><a href="index.html">Home</a><a href="menu.html">Menu</a><a href="about.html">About</a><a href="reservations.html">Reserve</a><a href="contact.html">Contact</a></div>
-    <div class="footer-col"><h5>Menu</h5><a href="menu.html?cat=starters">Starters</a><a href="menu.html?cat=mains">Mains</a><a href="menu.html?cat=pasta">Pasta & Pizza</a><a href="menu.html?cat=desserts">Desserts</a></div>
-    <div class="footer-col"><h5>Info</h5><a href="#">Privacy Policy</a><a href="#">Terms of Use</a><a href="#">Refund Policy</a></div>
-  </div>
-  <div class="footer-bottom"><span>© 2026 EMBER Fine Dining</span><span>Made with 🔥 in Hyderabad</span></div>
-</footer>
-</div>
+    <p class="eyebrow">Order Confirmed</p>
+    <h1>Thank You for<br><em>Dining with Us</em></h1>
+    <p class="subtitle">Your order is in the hands of our kitchen team.</p>
 
-<!-- ORDER MODAL -->
-<div class="modal-overlay" id="orderModal">
-  <div class="modal">
-    <button class="modal-close" onclick="document.getElementById('orderModal').classList.remove('open')">✕</button>
-    <div class="big-icon">🎉</div>
-    <h2>Order Confirmed!</h2>
-    <div class="order-id" id="orderId">EMB-000000</div>
-    <p>Your order is being prepared by our kitchen team. Estimated delivery: <strong>28–35 minutes</strong>.<br>You'll receive an SMS confirmation shortly.</p>
-    <a href="menu.html"><button class="checkout-btn" style="max-width:260px;">Continue Shopping →</button></a>
-  </div>
-</div>
-
-<div id="toast"></div>
-<script src="app.js"></script>
-<script>
-let couponApplied = false;
-
-function renderCart() {
-  const cart = getCart();
-  const el = document.getElementById('cartContent');
-
-  if(!cart.length) {
-    el.innerHTML = `<div class="empty-cart">
-      <div class="ico">🛒</div>
-      <h2>Your cart is empty</h2>
-      <p>Looks like you haven't added anything yet. Browse our menu and find something delicious!</p>
-      <a href="menu.html"><button class="btn btn-primary">Browse Menu →</button></a>
-    </div>`;
-    return;
-  }
-
-  const subtotal = cart.reduce((s,i)=>s+i.price*i.qty,0);
-  const discount = couponApplied ? Math.round(subtotal*0.1) : 0;
-  const delivery = subtotal >= 499 ? 0 : 49;
-  const tax = Math.round((subtotal-discount)*0.05);
-  const total = subtotal - discount + delivery + tax;
-
-  el.innerHTML = `
-    <div class="cart-layout">
-      <div class="cart-list">
-        ${cart.map(item=>`
-          <div class="cart-item">
-            <div class="item-emoji">${item.emoji}</div>
-            <div class="item-info">
-              <div class="item-name">${item.name}</div>
-              <div class="item-desc">${item.desc||''}</div>
-              <div class="item-price">₹${(item.price*item.qty).toLocaleString()}</div>
-            </div>
-            <div class="item-actions">
-              <div class="qty-ctrl">
-                <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
-                <span class="qty-val">${item.qty}</span>
-                <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
-              </div>
-              <button class="remove-btn" onclick="removeItem(${item.id})" title="Remove">🗑</button>
-            </div>
-          </div>`).join('')}
-      </div>
-      <div class="summary-box">
-        <h3>Order Summary</h3>
-        <div class="sum-row"><span class="sum-label">Subtotal (${cart.reduce((s,i)=>s+i.qty,0)} items)</span><span>₹${subtotal.toLocaleString()}</span></div>
-        ${discount ? `<div class="sum-row"><span class="sum-label">Coupon EMBER10 (10%)</span><span style="color:var(--green)">−₹${discount.toLocaleString()}</span></div>`:''}
-        <div class="sum-row"><span class="sum-label">Delivery</span><span>${delivery===0?'<span style="color:var(--green)">FREE</span>':'₹'+delivery}</span></div>
-        <div class="sum-row"><span class="sum-label">GST (5%)</span><span>₹${tax.toLocaleString()}</span></div>
-        <hr class="sum-divider">
-        <div class="sum-row sum-total"><span>Total</span><span style="color:var(--accent)">₹${total.toLocaleString()}</span></div>
-
-        <div class="coupon-row">
-          <input class="coupon-input" type="text" id="couponInput" placeholder="Coupon code" value="${couponApplied?'EMBER10':''}">
-          <button class="coupon-btn" onclick="applyCoupon()">Apply</button>
+    <!-- Order summary card -->
+    <div class="order-card">
+      <p class="order-id-label">Order Reference</p>
+      <p class="order-id" id="orderRef">EMB-000000</p>
+      <div class="divider"></div>
+      <div class="info-grid">
+        <div class="info-item">
+          <label>Estimated Delivery</label>
+          <span class="highlight">28–35 minutes</span>
         </div>
-
-        <button class="checkout-btn" onclick="placeOrder()">Place Order →</button>
-        <div class="secure-note">🔒 Secure checkout · Free delivery above ₹499</div>
+        <div class="info-item">
+          <label>Status</label>
+          <span class="highlight">Being Prepared 🔥</span>
+        </div>
+        <div class="info-item">
+          <label>Confirmation</label>
+          <span>SMS sent to your number</span>
+        </div>
+        <div class="info-item">
+          <label>Payment</label>
+          <span>Confirmed</span>
+        </div>
       </div>
-    </div>`;
-}
+    </div>
 
-function changeQty(id, delta) {
-  let cart = getCart();
-  const item = cart.find(c=>c.id===id);
-  if(!item) return;
-  item.qty += delta;
-  if(item.qty <= 0) cart = cart.filter(c=>c.id!==id);
-  saveCart(cart);
-  updateCartBadge();
-  renderCart();
-}
+    <!-- Progress tracker -->
+    <div class="steps">
+      <div class="step">
+        <div class="step-dot done">✓</div>
+        <span class="step-label done-label">Placed</span>
+      </div>
+      <div class="step-line done-line"></div>
+      <div class="step">
+        <div class="step-dot active">🔥</div>
+        <span class="step-label active-label">Preparing</span>
+      </div>
+      <div class="step-line pending-line"></div>
+      <div class="step">
+        <div class="step-dot pending">🛵</div>
+        <span class="step-label">On the Way</span>
+      </div>
+      <div class="step-line pending-line"></div>
+      <div class="step">
+        <div class="step-dot pending">🏠</div>
+        <span class="step-label">Delivered</span>
+      </div>
+    </div>
 
-function removeItem(id) {
-  let cart = getCart().filter(c=>c.id!==id);
-  saveCart(cart);
-  updateCartBadge();
-  renderCart();
-  showToast('Item removed');
-}
+    <!-- Message -->
+    <div class="message-box">
+      <p>Every dish is prepared with <strong>open-flame precision</strong> by our Michelin-trained chefs. Sit back — your exceptional meal is on its way.</p>
+    </div>
 
-function applyCoupon() {
-  const val = document.getElementById('couponInput')?.value.trim().toUpperCase();
-  if(val==='EMBER10') { couponApplied=true; renderCart(); showToast('🎉 10% discount applied!'); }
-  else { showToast('❌ Invalid coupon code. Try EMBER10'); }
-}
+    <!-- Actions -->
+    <div class="actions">
+      <a href="https://potnurudeekshita860-bot.github.io/new-restaurant/menu.html" class="btn-primary">
+        🍽 Explore Menu Again
+      </a>
+      <a href="https://potnurudeekshita860-bot.github.io/new-restaurant/index.html" class="btn-secondary">
+        ← Back to Home
+      </a>
+    </div>
 
-function placeOrder() {
-  const id = 'EMB-'+Math.floor(100000+Math.random()*900000);
-  document.getElementById('orderId').textContent = id;
-  document.getElementById('orderModal').classList.add('open');
-  saveCart([]);
-  couponApplied = false;
-  updateCartBadge();
-}
+  </main>
 
-renderCart();
-</script>
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="logo">EMBER</span>
+        <p>Fine dining delivered. Where every meal is an occasion worth remembering. Hyderabad's favourite open-flame kitchen.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <a href="https://potnurudeekshita860-bot.github.io/new-restaurant/index.html">Home</a>
+        <a href="https://potnurudeekshita860-bot.github.io/new-restaurant/menu.html">Menu</a>
+        <a href="https://potnurudeekshita860-bot.github.io/new-restaurant/about.html">About</a>
+        <a href="https://potnurudeekshita860-bot.github.io/new-restaurant/reservations.html">Reserve</a>
+        <a href="https://potnurudeekshita860-bot.github.io/new-restaurant/contact.html">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Info</h4>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Refund Policy</a>
+        <a href="#">Careers</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 EMBER Fine Dining · All rights reserved</span>
+      <span>Made with 🔥 in Hyderabad</span>
+    </div>
+  </footer>
+
+  <script>
+    // Generate a random order ref on load (mirrors the existing site behaviour)
+    const ref = 'EMB-' + Math.random().toString(36).toUpperCase().slice(2, 8);
+    document.getElementById('orderRef').textContent = ref;
+  </script>
+
 </body>
 </html>
